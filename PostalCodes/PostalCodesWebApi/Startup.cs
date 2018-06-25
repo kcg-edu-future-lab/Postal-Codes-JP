@@ -24,6 +24,7 @@ namespace PostalCodesWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +36,7 @@ namespace PostalCodesWebApi
             }
 
             app.UseMvc();
+            app.UseCors(b => b.AllowAnyOrigin());
         }
     }
 }
