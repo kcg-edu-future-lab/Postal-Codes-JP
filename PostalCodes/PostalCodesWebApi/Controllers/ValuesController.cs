@@ -24,14 +24,23 @@ namespace PostalCodesWebApi.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
+        /// <summary>
+        /// Gets the value for the specified ID.
+        /// </summary>
+        /// <param name="id">The ID.</param>
+        /// <returns>The value.</returns>
+        /// <remarks>GET api/values/5</remarks>
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/values
+        /// <summary>
+        /// Posts the new value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <remarks>POST api/values</remarks>
         [HttpPost]
         public void Post([FromBody]string value)
         {
