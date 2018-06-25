@@ -35,8 +35,8 @@ namespace PostalCodesWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             services.AddCors();
+            services.AddMvc();
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(c =>
@@ -73,8 +73,8 @@ namespace PostalCodesWebApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
             app.UseCors(b => b.AllowAnyOrigin());
+            app.UseMvc();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
