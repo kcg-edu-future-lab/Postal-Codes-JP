@@ -46,13 +46,22 @@ namespace PostalCodesWebApi.Controllers
         {
         }
 
-        // PUT api/values/5
+        /// <summary>
+        ///  Updates the value for the specified ID.
+        /// </summary>
+        /// <param name="id">The ID.</param>
+        /// <param name="value">The value.</param>
+        /// <remarks>PUT api/values/5</remarks>
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
+        /// <summary>
+        ///  Deletes the value for the specified ID.
+        /// </summary>
+        /// <param name="id">The ID.</param>
+        /// <remarks>DELETE api/values/5</remarks>
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
