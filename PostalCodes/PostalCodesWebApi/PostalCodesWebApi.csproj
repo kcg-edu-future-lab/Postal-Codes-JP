@@ -10,9 +10,14 @@
     <Copyright>© 2018 Keiho Sakapon</Copyright>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\PostalCodesWebApi.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>bin\Release\netcoreapp2.0\PostalCodesWebApi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
