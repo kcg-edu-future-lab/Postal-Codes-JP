@@ -6,11 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PostalCodesWebApi.Controllers
 {
+    /// <summary>
+    /// Represents string data.
+    /// </summary>
     [Route("api/[controller]")]
     [Produces("application/json")]
     public class ValuesController : Controller
     {
-        // GET api/values
+        /// <summary>
+        /// Gets all values.
+        /// </summary>
+        /// <returns>All values.</returns>
+        /// <remarks>GET api/values</remarks>
         [HttpGet]
         public IEnumerable<string> Get()
         {
