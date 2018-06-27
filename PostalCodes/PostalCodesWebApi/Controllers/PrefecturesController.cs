@@ -15,7 +15,7 @@ namespace PostalCodesWebApi.Controllers
         [HttpGet]
         public IEnumerable<Prefecture> Get()
         {
-            throw new NotImplementedException();
+            return PostalCodesModel.GetPrefectures();
         }
 
         [HttpGet("{code:regex(^[[0-9]]{{2}}$)}")]
