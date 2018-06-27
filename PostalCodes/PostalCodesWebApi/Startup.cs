@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PostalCodesWebApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace PostalCodesWebApi
@@ -86,6 +87,8 @@ namespace PostalCodesWebApi
                 c.DocumentTitle = Title;
                 c.RoutePrefix = "";
             });
+
+            PostalCodesModel.LoadData(env.WebRootPath);
         }
     }
 }

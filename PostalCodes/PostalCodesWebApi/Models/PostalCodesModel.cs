@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace PostalCodesWebApi.Models
 {
     public static class PostalCodesModel
     {
-        public static Prefecture[] GetPrefectures()
+        public static Prefecture[] Prefectures { get; private set; }
+        public static IDictionary<string, Prefecture> PrefecturesMap { get; private set; }
+
+        public static void LoadData(string webRootPath)
         {
-            return CsvFile.ReadRecordsByArray(@"App_Data\Prefectures.csv", true)
+            Prefectures = GetPrefectures(Path.Combine(webRootPath, "App_Data", "Prefectures.csv"));
+            PrefecturesMap = Prefectures.ToDictionary(p => p.Code);
+        }
+
+        static Prefecture[] GetPrefectures(string path) =>
+            CsvFile.ReadRecordsByArray(path, true)
                 .Select(l => new Prefecture
                 {
                     Code = l[0],
@@ -17,7 +26,6 @@ namespace PostalCodesWebApi.Models
                     Kana = l[2],
                 })
                 .ToArray();
-        }
     }
 
     /// <summary>
