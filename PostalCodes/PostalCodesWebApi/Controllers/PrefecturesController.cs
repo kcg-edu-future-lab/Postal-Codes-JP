@@ -22,7 +22,7 @@ namespace PostalCodesWebApi.Controllers
         [HttpGet]
         public IEnumerable<Prefecture> Get()
         {
-            return PostalCodesData.Prefectures;
+            return PostalCodesData.Prefectures.Values;
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace PostalCodesWebApi.Controllers
         [ProducesResponseType(404)]
         public IActionResult Get(string code)
         {
-            if (!PostalCodesData.PrefecturesMap.ContainsKey(code)) return NotFound();
+            if (!PostalCodesData.Prefectures.ContainsKey(code)) return NotFound();
 
-            return Ok(PostalCodesData.PrefecturesMap[code]);
+            return Ok(PostalCodesData.Prefectures[code]);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace PostalCodesWebApi.Controllers
         {
             if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<Prefecture>();
 
-            return PostalCodesData.Prefectures.Where(x => x.Name.Contains(name));
+            return PostalCodesData.Prefectures.Values.Where(x => x.Name.Contains(name));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace PostalCodesWebApi.Controllers
         {
             if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<Prefecture>();
 
-            return PostalCodesData.Prefectures.Where(x => x.Kana.Contains(kana));
+            return PostalCodesData.Prefectures.Values.Where(x => x.Kana.Contains(kana));
         }
     }
 }
