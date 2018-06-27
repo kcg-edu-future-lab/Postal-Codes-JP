@@ -19,21 +19,29 @@ namespace PostalCodesWebApi.Controllers
         }
 
         [HttpGet("{code:regex(^[[0-9]]{{2}}$)}")]
-        public Prefecture Get(string code)
+        [ProducesResponseType(200, Type = typeof(Prefecture))]
+        [ProducesResponseType(404)]
+        public IActionResult Get(string code)
         {
-            throw new NotImplementedException();
+            if (!PostalCodesModel.PrefecturesMap.ContainsKey(code)) return NotFound();
+
+            return Ok(PostalCodesModel.PrefecturesMap[code]);
         }
 
         [HttpGet("ByName/{name}")]
         public IEnumerable<Prefecture> GetByName(string name)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<Prefecture>();
+
+            return PostalCodesModel.Prefectures.Where(x => x.Name.Contains(name));
         }
 
         [HttpGet("ByKana/{kana}")]
         public IEnumerable<Prefecture> GetByKana(string kana)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<Prefecture>();
+
+            return PostalCodesModel.Prefectures.Where(x => x.Kana.Contains(kana));
         }
     }
 }
