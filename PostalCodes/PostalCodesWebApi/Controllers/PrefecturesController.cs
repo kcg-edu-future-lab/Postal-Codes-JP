@@ -18,7 +18,7 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// すべての都道府県のリストを取得します。
         /// </summary>
-        /// <returns>都道府県のリスト。</returns>
+        /// <returns>都道府県のリスト</returns>
         [HttpGet]
         public IEnumerable<Prefecture> Get()
         {
@@ -28,8 +28,8 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// 都道府県コードを指定して、都道府県を取得します。
         /// </summary>
-        /// <param name="code">都道府県コード (2 桁)。</param>
-        /// <returns>都道府県。</returns>
+        /// <param name="code">都道府県コード (2 桁)</param>
+        /// <returns>都道府県</returns>
         [HttpGet("{code:regex(^[[0-9]]{{2}}$)}")]
         [ProducesResponseType(200, Type = typeof(Prefecture))]
         [ProducesResponseType(404)]
@@ -43,8 +43,8 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// 名前を指定して、都道府県のリストを取得します。
         /// </summary>
-        /// <param name="name">名前。</param>
-        /// <returns>都道府県のリスト。</returns>
+        /// <param name="name">名前</param>
+        /// <returns>都道府県のリスト</returns>
         [HttpGet("ByName/{name}")]
         public IEnumerable<Prefecture> GetByName(string name)
         {
@@ -56,8 +56,8 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// かなを指定して、都道府県のリストを取得します。
         /// </summary>
-        /// <param name="kana">かな。</param>
-        /// <returns>都道府県のリスト。</returns>
+        /// <param name="kana">かな</param>
+        /// <returns>都道府県のリスト</returns>
         [HttpGet("ByKana/{kana}")]
         public IEnumerable<Prefecture> GetByKana(string kana)
         {
