@@ -10,12 +10,16 @@ namespace PostalCodesWebApi.Models
         public static IDictionary<string, Prefecture> Prefectures { get; private set; }
 
         public static IDictionary<string, City> Cities { get; private set; }
+        public static IDictionary<Prefecture, City[]> PrefectureCitiesMap { get; private set; }
 
         public static void LoadData(string webRootPath)
         {
             Prefectures = GetPrefectures(Path.Combine(webRootPath, "App_Data", "Prefectures.csv"));
 
             Cities = GetCities(Path.Combine(webRootPath, "App_Data", "Cities.csv"));
+            PrefectureCitiesMap = Cities.Values
+                .GroupBySequentially(x => x.Prefecture)
+                .ToDictionary(g => g.Key, g => g.ToArray());
         }
 
         static IDictionary<string, Prefecture> GetPrefectures(string path) =>
