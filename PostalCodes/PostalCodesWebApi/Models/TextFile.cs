@@ -8,7 +8,8 @@ namespace PostalCodesWebApi.Models
     public static class TextFile
     {
         public static readonly Encoding UTF8N = new UTF8Encoding();
-        public static readonly Encoding ShiftJIS = Encoding.GetEncoding("shift_jis");
+        // Install System.Text.Encoding.CodePages, if the Shift_JIS is needed.
+        //public static readonly Encoding ShiftJIS = Encoding.GetEncoding("shift_jis");
 
         public static IEnumerable<string> ReadLines(this Stream stream, Encoding encoding = null)
         {
