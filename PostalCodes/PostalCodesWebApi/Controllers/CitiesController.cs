@@ -16,6 +16,22 @@ namespace PostalCodesWebApi.Controllers
     public class CitiesController : Controller
     {
         /// <summary>
+        /// 都道府県コード (2 桁) を指定して、市区町村のリストを取得します。
+        /// </summary>
+        /// <param name="prefectureCode">都道府県コード (2 桁)</param>
+        /// <returns>市区町村のリスト</returns>
+        [HttpGet("ByPrefecture/{prefectureCode:regex(^[[0-9]]{{2}}$)}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<City>))]
+        [ProducesResponseType(404)]
+        public IActionResult GetByPrefecture(string prefectureCode)
+        {
+            if (!PostalCodesData.Prefectures.ContainsKey(prefectureCode)) return NotFound();
+
+            var prefecture = PostalCodesData.Prefectures[prefectureCode];
+            return Ok(PostalCodesData.PrefectureCitiesMap[prefecture]);
+        }
+
+        /// <summary>
         /// 市区町村コード (5 桁) を指定して、市区町村を取得します。
         /// </summary>
         /// <param name="code">市区町村コード (5 桁)</param>
@@ -54,20 +70,6 @@ namespace PostalCodesWebApi.Controllers
             if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<City>();
 
             return PostalCodesData.Cities.Values.Where(x => x.Kana.Contains(kana));
-        }
-
-        /// <summary>
-        /// 都道府県コード (2 桁) を指定して、市区町村のリストを取得します。
-        /// </summary>
-        /// <param name="prefectureCode">都道府県コード (2 桁)</param>
-        /// <returns>市区町村のリスト</returns>
-        [HttpGet("ByPrefecture/{prefectureCode:regex(^[[0-9]]{{2}}$)}")]
-        public IEnumerable<City> GetByPrefecture(string prefectureCode)
-        {
-            if (!PostalCodesData.Prefectures.ContainsKey(prefectureCode)) return Enumerable.Empty<City>();
-
-            var prefecture = PostalCodesData.Prefectures[prefectureCode];
-            return PostalCodesData.PrefectureCitiesMap[prefecture];
         }
     }
 }
