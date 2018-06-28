@@ -36,6 +36,7 @@ namespace PostalCodesWebApi.Controllers
         /// </summary>
         /// <param name="postalCode">郵便番号 (7 桁)</param>
         /// <returns>郵便番号と町域のリスト</returns>
+        /// <remarks>一つの郵便番号に複数の町域が割り当てられている場合があるため、戻り値はリストです。</remarks>
         [HttpGet("{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{4}}$)}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<PostalCodeEntry>))]
         [ProducesResponseType(404)]
@@ -46,6 +47,19 @@ namespace PostalCodesWebApi.Controllers
             if (!PostalCodesData.PostalCodes.ContainsKey(postalCode)) return NotFound();
 
             return Ok(PostalCodesData.PostalCodes[postalCode]);
+        }
+
+        /// <summary>
+        /// 郵便番号の一部 (3 桁以上) を指定して、郵便番号と町域のリストを取得します。前方一致検索です。
+        /// </summary>
+        /// <param name="postalCode">郵便番号の一部 (3 桁以上)</param>
+        /// <returns>郵便番号と町域のリスト</returns>
+        [HttpGet("ByPartial/{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{0,4}}$)}")]
+        public IEnumerable<PostalCodeEntry> GetByPartial(string postalCode)
+        {
+            postalCode = postalCode.Replace("-", "");
+
+            return PostalCodesData.PostalCodeEntries.Where(x => x.PostalCode.StartsWith(postalCode));
         }
 
         /// <summary>
