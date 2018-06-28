@@ -12,6 +12,11 @@ namespace PostalCodesWebApi.Models
         public static IDictionary<string, City> Cities { get; private set; }
         public static IDictionary<Prefecture, City[]> PrefectureCitiesMap { get; private set; }
 
+        public static PostalCodeEntry[] PostalCodeEntries { get; private set; }
+
+        public static IDictionary<string, PostalCodeEntry[]> PostalCodes { get; private set; }
+        public static IDictionary<City, PostalCodeEntry[]> CityPostalCodesMap { get; private set; }
+
         public static void LoadData(string webRootPath)
         {
             Prefectures = GetPrefectures(Path.Combine(webRootPath, "App_Data", "Prefectures.csv"));
@@ -19,6 +24,15 @@ namespace PostalCodesWebApi.Models
             Cities = GetCities(Path.Combine(webRootPath, "App_Data", "Cities.csv"));
             PrefectureCitiesMap = Cities.Values
                 .GroupBySequentially(x => x.Prefecture)
+                .ToDictionary(g => g.Key, g => g.ToArray());
+
+            PostalCodeEntries = GetPostalCodeEntries(Path.Combine(webRootPath, "App_Data", "PostalCodeEntries.csv"));
+
+            PostalCodes = PostalCodeEntries
+                .GroupBy(x => x.PostalCode)
+                .ToDictionary(g => g.Key, g => g.ToArray());
+            CityPostalCodesMap = PostalCodeEntries
+                .GroupBySequentially(x => x.City)
                 .ToDictionary(g => g.Key, g => g.ToArray());
         }
 
@@ -42,5 +56,17 @@ namespace PostalCodesWebApi.Models
                     Prefecture = Prefectures[l[0]],
                 })
                 .ToDictionary(p => p.Code);
+
+        static PostalCodeEntry[] GetPostalCodeEntries(string path) =>
+            CsvFile.ReadRecordsByArray(path, true)
+                .Select(l => new PostalCodeEntry
+                {
+                    PostalCode = l[1],
+                    TownName = l[2],
+                    TownKana = l[3],
+                    Remarks = l[4],
+                    City = Cities[l[0]],
+                })
+                .ToArray();
     }
 }
