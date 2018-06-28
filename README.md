@@ -13,7 +13,7 @@ Provides the Web API to search postal codes of Japan.
 - Swashbuckle.AspNetCore 2.5.0
 
 ### Release Notes
-- **v1.0.?** The first release.
+- **v1.0.7** β版リリース。
 
 ### Records
 2018.06.22-29 京都コンピュータ学院 未来環境ラボ 「Re:京都オープンデータハッカソン」
