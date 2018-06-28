@@ -2,6 +2,10 @@
 日本の郵便番号を検索するための Web API を提供します。  
 Provides the Web API to search postal codes of Japan.
 
+この Web API は CORS (Cross-Origin Resource Sharing) をサポートしています。
+
+- [ホスティングについて](docs/Hosting.md)
+
 ### Development Environment
 - .NET Core 2.0
 - ASP.NET Core Web API 2.0.8
