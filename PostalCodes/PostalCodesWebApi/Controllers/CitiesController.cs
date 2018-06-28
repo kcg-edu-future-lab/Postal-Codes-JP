@@ -16,7 +16,7 @@ namespace PostalCodesWebApi.Controllers
     public class CitiesController : Controller
     {
         /// <summary>
-        /// 市区町村コードを指定して、市区町村を取得します。
+        /// 市区町村コード (5 桁) を指定して、市区町村を取得します。
         /// </summary>
         /// <param name="code">市区町村コード (5 桁)</param>
         /// <returns>市区町村</returns>
@@ -31,9 +31,9 @@ namespace PostalCodesWebApi.Controllers
         }
 
         /// <summary>
-        /// 名前を指定して、市区町村のリストを取得します。
+        /// 市区町村の名前を指定して、市区町村のリストを取得します。部分一致検索です。
         /// </summary>
-        /// <param name="name">名前</param>
+        /// <param name="name">市区町村の名前</param>
         /// <returns>市区町村のリスト</returns>
         [HttpGet("ByName/{name}")]
         public IEnumerable<City> GetByName(string name)
@@ -44,9 +44,9 @@ namespace PostalCodesWebApi.Controllers
         }
 
         /// <summary>
-        /// かなを指定して、市区町村のリストを取得します。
+        /// 市区町村のかなを指定して、市区町村のリストを取得します。部分一致検索です。
         /// </summary>
-        /// <param name="kana">かな</param>
+        /// <param name="kana">市区町村のかな</param>
         /// <returns>市区町村のリスト</returns>
         [HttpGet("ByKana/{kana}")]
         public IEnumerable<City> GetByKana(string kana)
@@ -57,7 +57,7 @@ namespace PostalCodesWebApi.Controllers
         }
 
         /// <summary>
-        /// 都道府県コードを指定して、市区町村のリストを取得します。
+        /// 都道府県コード (2 桁) を指定して、市区町村のリストを取得します。
         /// </summary>
         /// <param name="prefectureCode">都道府県コード (2 桁)</param>
         /// <returns>市区町村のリスト</returns>
