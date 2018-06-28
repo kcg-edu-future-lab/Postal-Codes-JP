@@ -34,7 +34,7 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// 郵便番号 (7 桁) を指定して、郵便番号と町域のリストを取得します。
         /// </summary>
-        /// <param name="postalCode">郵便番号 (7 桁)</param>
+        /// <param name="postalCode">郵便番号 (7 桁)。ハイフンの有無は問いません。</param>
         /// <returns>郵便番号と町域のリスト</returns>
         /// <remarks>一つの郵便番号に複数の町域が割り当てられている場合があるため、戻り値はリストです。</remarks>
         [HttpGet("{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{4}}$)}")]
@@ -52,14 +52,16 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// 郵便番号の一部 (3 桁以上) を指定して、郵便番号と町域のリストを取得します。前方一致検索です。
         /// </summary>
-        /// <param name="postalCode">郵便番号の一部 (3 桁以上)</param>
+        /// <param name="postalCode">郵便番号の一部 (3 桁以上)。ハイフンの有無は問いません。</param>
         /// <returns>郵便番号と町域のリスト</returns>
+        /// <remarks>戻り値は郵便番号の順に並びます。</remarks>
         [HttpGet("ByPartial/{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{0,4}}$)}")]
         public IEnumerable<PostalCodeEntry> GetByPartial(string postalCode)
         {
             postalCode = postalCode.Replace("-", "");
 
-            return PostalCodesData.PostalCodeEntries.Where(x => x.PostalCode.StartsWith(postalCode));
+            return PostalCodesData.PostalCodeEntries.Where(x => x.PostalCode.StartsWith(postalCode))
+                .OrderBy(x => x.PostalCode);
         }
 
         /// <summary>
