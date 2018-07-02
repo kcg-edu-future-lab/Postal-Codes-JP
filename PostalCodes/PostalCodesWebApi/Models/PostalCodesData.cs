@@ -19,14 +19,14 @@ namespace PostalCodesWebApi.Models
 
         public static void LoadData(string webRootPath)
         {
-            Prefectures = GetPrefectures(Path.Combine(webRootPath, "App_Data", "Prefectures.csv"));
+            Prefectures = GetPrefectures(Path.Combine(webRootPath, "App_Data", "Prefs.csv"));
 
             Cities = GetCities(Path.Combine(webRootPath, "App_Data", "Cities.csv"));
             PrefectureCitiesMap = Cities.Values
                 .GroupBySequentially(x => x.Prefecture)
                 .ToDictionary(g => g.Key, g => g.ToArray());
 
-            PostalCodeEntries = GetPostalCodeEntries(Path.Combine(webRootPath, "App_Data", "PostalCodeEntries.csv"));
+            PostalCodeEntries = GetPostalCodeEntries(Path.Combine(webRootPath, "App_Data", "Towns.csv"));
 
             PostalCodes = PostalCodeEntries
                 .GroupBy(x => x.PostalCode)
