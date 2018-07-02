@@ -12,10 +12,10 @@ namespace PostalCodesWebApi.Models
         public static IDictionary<string, City> Cities { get; private set; }
         public static IDictionary<Pref, City[]> PrefCitiesMap { get; private set; }
 
-        public static PostalCodeEntry[] PostalCodeEntries { get; private set; }
+        public static Town[] Towns { get; private set; }
 
-        public static IDictionary<string, PostalCodeEntry[]> PostalCodes { get; private set; }
-        public static IDictionary<City, PostalCodeEntry[]> CityPostalCodesMap { get; private set; }
+        public static IDictionary<string, Town[]> PostalCodes { get; private set; }
+        public static IDictionary<City, Town[]> CityTownsMap { get; private set; }
 
         public static void LoadData(string webRootPath)
         {
@@ -26,12 +26,12 @@ namespace PostalCodesWebApi.Models
                 .GroupBySequentially(x => x.Pref)
                 .ToDictionary(g => g.Key, g => g.ToArray());
 
-            PostalCodeEntries = GetPostalCodeEntries(Path.Combine(webRootPath, "App_Data", "Towns.csv"));
+            Towns = GetTowns(Path.Combine(webRootPath, "App_Data", "Towns.csv"));
 
-            PostalCodes = PostalCodeEntries
+            PostalCodes = Towns
                 .GroupBy(x => x.PostalCode)
                 .ToDictionary(g => g.Key, g => g.ToArray());
-            CityPostalCodesMap = PostalCodeEntries
+            CityTownsMap = Towns
                 .GroupBySequentially(x => x.City)
                 .ToDictionary(g => g.Key, g => g.ToArray());
         }
@@ -57,9 +57,9 @@ namespace PostalCodesWebApi.Models
                 })
                 .ToDictionary(p => p.Code);
 
-        static PostalCodeEntry[] GetPostalCodeEntries(string path) =>
+        static Town[] GetTowns(string path) =>
             CsvFile.ReadRecordsByArray(path, true)
-                .Select(l => new PostalCodeEntry
+                .Select(l => new Town
                 {
                     PostalCode = l[1],
                     Name = l[2],

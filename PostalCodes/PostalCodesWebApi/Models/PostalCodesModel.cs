@@ -37,7 +37,7 @@ namespace PostalCodesWebApi.Models
     /// 郵便番号と町域の対応を表します。
     /// </summary>
     [DebuggerDisplay(@"\{{PostalCode}:{Name}\}")]
-    public class PostalCodeEntry
+    public class Town
     {
         /// <summary>郵便番号 (7 桁)</summary>
         public string PostalCode { get; set; }

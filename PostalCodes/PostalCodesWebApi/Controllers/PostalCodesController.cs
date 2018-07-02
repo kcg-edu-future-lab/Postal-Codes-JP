@@ -21,14 +21,14 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="cityCode">市区町村コード (5 桁)</param>
         /// <returns>郵便番号と町域のリスト</returns>
         [HttpGet("ByCity/{cityCode:regex(^[[0-9]]{{5}}$)}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<PostalCodeEntry>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
         [ProducesResponseType(404)]
         public IActionResult GetByCity(string cityCode)
         {
             if (!PostalCodesData.Cities.ContainsKey(cityCode)) return NotFound();
 
             var city = PostalCodesData.Cities[cityCode];
-            return Ok(PostalCodesData.CityPostalCodesMap[city]);
+            return Ok(PostalCodesData.CityTownsMap[city]);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace PostalCodesWebApi.Controllers
         /// <returns>郵便番号と町域のリスト</returns>
         /// <remarks>一つの郵便番号に複数の町域が割り当てられている場合があるため、戻り値はリストです。</remarks>
         [HttpGet("{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{4}}$)}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<PostalCodeEntry>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
         [ProducesResponseType(404)]
         public IActionResult Get(string postalCode)
         {
@@ -56,11 +56,11 @@ namespace PostalCodesWebApi.Controllers
         /// <returns>郵便番号と町域のリスト</returns>
         /// <remarks>戻り値は郵便番号の順に並びます。</remarks>
         [HttpGet("ByPartial/{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{0,4}}$)}")]
-        public IEnumerable<PostalCodeEntry> GetByPartial(string postalCode)
+        public IEnumerable<Town> GetByPartial(string postalCode)
         {
             postalCode = postalCode.Replace("-", "");
 
-            return PostalCodesData.PostalCodeEntries.Where(x => x.PostalCode.StartsWith(postalCode))
+            return PostalCodesData.Towns.Where(x => x.PostalCode.StartsWith(postalCode))
                 .OrderBy(x => x.PostalCode);
         }
 
@@ -70,11 +70,11 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="name">町域の名前</param>
         /// <returns>郵便番号と町域のリスト</returns>
         [HttpGet("ByName/{name}")]
-        public IEnumerable<PostalCodeEntry> GetByName(string name)
+        public IEnumerable<Town> GetByName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<PostalCodeEntry>();
+            if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<Town>();
 
-            return PostalCodesData.PostalCodeEntries.Where(x => x.Name.Contains(name));
+            return PostalCodesData.Towns.Where(x => x.Name.Contains(name));
         }
 
         /// <summary>
@@ -83,11 +83,11 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="kana">町域のかな</param>
         /// <returns>郵便番号と町域のリスト</returns>
         [HttpGet("ByKana/{kana}")]
-        public IEnumerable<PostalCodeEntry> GetByKana(string kana)
+        public IEnumerable<Town> GetByKana(string kana)
         {
-            if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<PostalCodeEntry>();
+            if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<Town>();
 
-            return PostalCodesData.PostalCodeEntries.Where(x => x.Kana.Contains(kana));
+            return PostalCodesData.Towns.Where(x => x.Kana.Contains(kana));
         }
     }
 }
