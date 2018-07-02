@@ -21,5 +21,16 @@ namespace PostalCodesDataConsole
                 }
             }
         }
+
+        public static void SaveZipFile(CsvDataInfo[] csvData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void SaveCsvFiles(CsvDataInfo[] csvData)
+        {
+            foreach (var _ in csvData)
+                CsvFile.WriteRecordsByArray(_.FileName, _.Records, _.Columns);
+        }
     }
 }

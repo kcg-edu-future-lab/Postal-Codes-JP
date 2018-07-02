@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Bellona.IO;
 using Microsoft.VisualBasic;
 
 namespace PostalCodesDataConsole
@@ -12,12 +11,6 @@ namespace PostalCodesDataConsole
         public static readonly string[] PrefColumns = new[] { "Code", "Name", "Kana" };
         public static readonly string[] CityColumns = new[] { "PrefCode", "Code", "Name", "Kana" };
         public static readonly string[] TownColumns = new[] { "CityCode", "PostalCode", "Name", "Kana", "Remarks" };
-
-        public static void CreateCsvDataFiles(string[][] originalData)
-        {
-            foreach (var _ in CreateCsvData(originalData))
-                CsvFile.WriteRecordsByArray(_.FileName, _.Records, _.Columns);
-        }
 
         public static CsvDataInfo[] CreateCsvData(string[][] originalData)
         {

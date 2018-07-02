@@ -11,8 +11,8 @@ namespace PostalCodesDataConsole
         static void Main(string[] args)
         {
             var originalData = DataZipFile.FromOriginal(KenAll_Local_Path);
-
-            DataCreator.CreateCsvDataFiles(originalData);
+            var remodeledData = DataCreator.CreateCsvData(originalData);
+            DataZipFile.SaveCsvFiles(remodeledData);
         }
     }
 }
