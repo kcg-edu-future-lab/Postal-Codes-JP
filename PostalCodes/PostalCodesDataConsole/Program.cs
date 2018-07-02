@@ -12,7 +12,7 @@ namespace PostalCodesDataConsole
         {
             var originalData = DataZipFile.FromOriginal(KenAll_Local_Path);
 
-            DataCreator.CreateDataCsvFiles(originalData);
+            DataCreator.CreateCsvDataFiles(originalData);
         }
     }
 }

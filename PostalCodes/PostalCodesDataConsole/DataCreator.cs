@@ -9,16 +9,24 @@ namespace PostalCodesDataConsole
 {
     public static class DataCreator
     {
-        public static void CreateDataZipFile(string[][] originalData)
+        public static readonly string[] PrefColumns = new[] { "Code", "Name", "Kana" };
+        public static readonly string[] CityColumns = new[] { "PrefCode", "Code", "Name", "Kana" };
+        public static readonly string[] TownColumns = new[] { "CityCode", "PostalCode", "Name", "Kana", "Remarks" };
+
+        public static void CreateCsvDataFiles(string[][] originalData)
         {
-            throw new NotImplementedException();
+            foreach (var _ in CreateCsvData(originalData))
+                CsvFile.WriteRecordsByArray(_.FileName, _.Records, _.Columns);
         }
 
-        public static void CreateDataCsvFiles(string[][] originalData)
+        public static CsvDataInfo[] CreateCsvData(string[][] originalData)
         {
-            CsvFile.WriteRecordsByArray("Prefs.csv", CreatePrefs(originalData), new[] { "Code", "Name", "Kana" });
-            CsvFile.WriteRecordsByArray("Cities.csv", CreateCities(originalData), new[] { "PrefCode", "Code", "Name", "Kana" });
-            CsvFile.WriteRecordsByArray("Towns.csv", CreateTowns(originalData), new[] { "CityCode", "PostalCode", "Name", "Kana", "Remarks" });
+            return new[]
+            {
+                new CsvDataInfo { FileName = "Prefs.csv", Columns = PrefColumns, Records = CreatePrefs(originalData) },
+                new CsvDataInfo { FileName = "Cities.csv", Columns = CityColumns, Records = CreateCities(originalData) },
+                new CsvDataInfo { FileName = "Towns.csv", Columns = TownColumns, Records = CreateTowns(originalData) },
+            };
         }
 
         public static IEnumerable<string[]> CreatePrefs(string[][] originalData)
@@ -99,5 +107,12 @@ namespace PostalCodesDataConsole
 
         static string ToHiragana(this string value) =>
             Strings.StrConv(value, VbStrConv.Wide | VbStrConv.Hiragana);
+    }
+
+    public class CsvDataInfo
+    {
+        public string FileName { get; set; }
+        public string[] Columns { get; set; }
+        public IEnumerable<string[]> Records { get; set; }
     }
 }
