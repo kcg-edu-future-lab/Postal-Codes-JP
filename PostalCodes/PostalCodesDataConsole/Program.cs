@@ -8,11 +8,13 @@ namespace PostalCodesDataConsole
         const string Kyoto_Local_Path = @"..\..\..\..\..\Data\Original\201805\26kyouto.zip";
         const string KenAll_JP_Uri = "http://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip";
 
+        const string PostalCodesData_Path = @"..\..\..\..\..\Data\Remodeled\201805\PostalCodesData.zip";
+
         static void Main(string[] args)
         {
             var originalData = DataZipFile.FromOriginal(KenAll_Local_Path);
             var remodeledData = DataCreator.CreateCsvData(originalData);
-            DataZipFile.SaveCsvFiles(remodeledData);
+            DataZipFile.SaveZipFile(PostalCodesData_Path, remodeledData);
         }
     }
 }

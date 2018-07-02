@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using Bellona.IO;
@@ -22,9 +23,21 @@ namespace PostalCodesDataConsole
             }
         }
 
-        public static void SaveZipFile(CsvDataInfo[] csvData)
+        public static void SaveZipFile(string remodeledZipPath, CsvDataInfo[] csvData)
         {
-            throw new NotImplementedException();
+            File.Delete(remodeledZipPath);
+
+            using (var zip = ZipFile.Open(remodeledZipPath, ZipArchiveMode.Create))
+            {
+                foreach (var _ in csvData)
+                {
+                    var entry = zip.CreateEntry(_.FileName);
+                    using (var stream = entry.Open())
+                    {
+                        CsvFile.WriteRecordsByArray(stream, _.Records, _.Columns);
+                    }
+                }
+            }
         }
 
         public static void SaveCsvFiles(CsvDataInfo[] csvData)
