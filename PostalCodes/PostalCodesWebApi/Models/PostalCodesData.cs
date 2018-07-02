@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 
 namespace PostalCodesWebApi.Models
@@ -19,14 +20,11 @@ namespace PostalCodesWebApi.Models
 
         public static void LoadData(string webRootPath)
         {
-            Prefs = GetPrefs(Path.Combine(webRootPath, "App_Data", "Prefs.csv"));
+            LoadDataZipFile(webRootPath);
 
-            Cities = GetCities(Path.Combine(webRootPath, "App_Data", "Cities.csv"));
             PrefCitiesMap = Cities.Values
                 .GroupBySequentially(x => x.Pref)
                 .ToDictionary(g => g.Key, g => g.ToArray());
-
-            Towns = GetTowns(Path.Combine(webRootPath, "App_Data", "Towns.csv"));
 
             PostalCodes = Towns
                 .GroupBy(x => x.PostalCode)
@@ -36,8 +34,31 @@ namespace PostalCodesWebApi.Models
                 .ToDictionary(g => g.Key, g => g.ToArray());
         }
 
-        static IDictionary<string, Pref> GetPrefs(string path) =>
-            CsvFile.ReadRecordsByArray(path, true)
+        static void LoadDataZipFile(string webRootPath)
+        {
+            var zipPath = Path.Combine(webRootPath, "App_Data", "PostalCodesData.zip");
+
+            using (var zip = ZipFile.OpenRead(zipPath))
+            {
+                Prefs = GetData(zip, "Prefs.csv", GetPrefs);
+                Cities = GetData(zip, "Cities.csv", GetCities);
+                Towns = GetData(zip, "Towns.csv", GetTowns);
+            }
+
+            TResult GetData<TResult>(ZipArchive zip, string entryName, Func<IEnumerable<string[]>, TResult> toObjects)
+            {
+                var entry = zip.GetEntry(entryName);
+                if (entry == null) throw new InvalidDataException("指定されたファイルが存在しません。");
+
+                using (var stream = entry.Open())
+                {
+                    return toObjects(CsvFile.ReadRecordsByArray(stream, true));
+                }
+            }
+        }
+
+        static IDictionary<string, Pref> GetPrefs(IEnumerable<string[]> source) =>
+            source
                 .Select(l => new Pref
                 {
                     Code = l[0],
@@ -46,8 +67,8 @@ namespace PostalCodesWebApi.Models
                 })
                 .ToDictionary(p => p.Code);
 
-        static IDictionary<string, City> GetCities(string path) =>
-            CsvFile.ReadRecordsByArray(path, true)
+        static IDictionary<string, City> GetCities(IEnumerable<string[]> source) =>
+            source
                 .Select(l => new City
                 {
                     Code = l[1],
@@ -57,8 +78,8 @@ namespace PostalCodesWebApi.Models
                 })
                 .ToDictionary(p => p.Code);
 
-        static Town[] GetTowns(string path) =>
-            CsvFile.ReadRecordsByArray(path, true)
+        static Town[] GetTowns(IEnumerable<string[]> source) =>
+            source
                 .Select(l => new Town
                 {
                     PostalCode = l[1],
