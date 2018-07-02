@@ -62,8 +62,8 @@ namespace PostalCodesWebApi.Models
                 .Select(l => new PostalCodeEntry
                 {
                     PostalCode = l[1],
-                    TownName = l[2],
-                    TownKana = l[3],
+                    Name = l[2],
+                    Kana = l[3],
                     Remarks = l[4],
                     City = Cities[l[0]],
                 })

@@ -74,7 +74,7 @@ namespace PostalCodesWebApi.Controllers
         {
             if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<PostalCodeEntry>();
 
-            return PostalCodesData.PostalCodeEntries.Where(x => x.TownName.Contains(name));
+            return PostalCodesData.PostalCodeEntries.Where(x => x.Name.Contains(name));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace PostalCodesWebApi.Controllers
         {
             if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<PostalCodeEntry>();
 
-            return PostalCodesData.PostalCodeEntries.Where(x => x.TownKana.Contains(kana));
+            return PostalCodesData.PostalCodeEntries.Where(x => x.Kana.Contains(kana));
         }
     }
 }

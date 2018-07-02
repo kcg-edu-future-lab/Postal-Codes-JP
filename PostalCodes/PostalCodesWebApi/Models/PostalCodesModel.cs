@@ -36,15 +36,15 @@ namespace PostalCodesWebApi.Models
     /// <summary>
     /// 郵便番号と町域の対応を表します。
     /// </summary>
-    [DebuggerDisplay(@"\{{PostalCode}:{TownName}\}")]
+    [DebuggerDisplay(@"\{{PostalCode}:{Name}\}")]
     public class PostalCodeEntry
     {
         /// <summary>郵便番号 (7 桁)</summary>
         public string PostalCode { get; set; }
         /// <summary>町域の名前</summary>
-        public string TownName { get; set; }
+        public string Name { get; set; }
         /// <summary>町域のかな</summary>
-        public string TownKana { get; set; }
+        public string Kana { get; set; }
         /// <summary>備考</summary>
         public string Remarks { get; set; }
         /// <summary>市区町村</summary>
