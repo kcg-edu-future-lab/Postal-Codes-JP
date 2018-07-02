@@ -13,16 +13,16 @@ namespace PostalCodesWebApi.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class PrefecturesController : Controller
+    public class PrefsController : Controller
     {
         /// <summary>
         /// すべての都道府県のリストを取得します。
         /// </summary>
         /// <returns>都道府県のリスト</returns>
         [HttpGet]
-        public IEnumerable<Prefecture> Get()
+        public IEnumerable<Pref> Get()
         {
-            return PostalCodesData.Prefectures.Values;
+            return PostalCodesData.Prefs.Values;
         }
 
         /// <summary>
@@ -31,13 +31,13 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="code">都道府県コード (2 桁)</param>
         /// <returns>都道府県</returns>
         [HttpGet("{code:regex(^[[0-9]]{{2}}$)}")]
-        [ProducesResponseType(200, Type = typeof(Prefecture))]
+        [ProducesResponseType(200, Type = typeof(Pref))]
         [ProducesResponseType(404)]
         public IActionResult Get(string code)
         {
-            if (!PostalCodesData.Prefectures.ContainsKey(code)) return NotFound();
+            if (!PostalCodesData.Prefs.ContainsKey(code)) return NotFound();
 
-            return Ok(PostalCodesData.Prefectures[code]);
+            return Ok(PostalCodesData.Prefs[code]);
         }
 
         /// <summary>
@@ -46,11 +46,11 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="name">都道府県の名前</param>
         /// <returns>都道府県のリスト</returns>
         [HttpGet("ByName/{name}")]
-        public IEnumerable<Prefecture> GetByName(string name)
+        public IEnumerable<Pref> GetByName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<Prefecture>();
+            if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<Pref>();
 
-            return PostalCodesData.Prefectures.Values.Where(x => x.Name.Contains(name));
+            return PostalCodesData.Prefs.Values.Where(x => x.Name.Contains(name));
         }
 
         /// <summary>
@@ -59,11 +59,11 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="kana">都道府県のかな</param>
         /// <returns>都道府県のリスト</returns>
         [HttpGet("ByKana/{kana}")]
-        public IEnumerable<Prefecture> GetByKana(string kana)
+        public IEnumerable<Pref> GetByKana(string kana)
         {
-            if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<Prefecture>();
+            if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<Pref>();
 
-            return PostalCodesData.Prefectures.Values.Where(x => x.Kana.Contains(kana));
+            return PostalCodesData.Prefs.Values.Where(x => x.Kana.Contains(kana));
         }
     }
 }

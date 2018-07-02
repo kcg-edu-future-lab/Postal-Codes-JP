@@ -7,7 +7,7 @@ namespace PostalCodesWebApi.Models
     /// 都道府県を表します。
     /// </summary>
     [DebuggerDisplay(@"\{{Code}:{Name}\}")]
-    public class Prefecture
+    public class Pref
     {
         /// <summary>都道府県コード (2 桁)</summary>
         public string Code { get; set; }
@@ -30,7 +30,7 @@ namespace PostalCodesWebApi.Models
         /// <summary>市区町村のかな</summary>
         public string Kana { get; set; }
         /// <summary>都道府県</summary>
-        public Prefecture Prefecture { get; set; }
+        public Pref Pref { get; set; }
     }
 
     /// <summary>

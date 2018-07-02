@@ -18,17 +18,17 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// 都道府県コード (2 桁) を指定して、市区町村のリストを取得します。
         /// </summary>
-        /// <param name="prefectureCode">都道府県コード (2 桁)</param>
+        /// <param name="prefCode">都道府県コード (2 桁)</param>
         /// <returns>市区町村のリスト</returns>
-        [HttpGet("ByPrefecture/{prefectureCode:regex(^[[0-9]]{{2}}$)}")]
+        [HttpGet("ByPref/{prefCode:regex(^[[0-9]]{{2}}$)}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<City>))]
         [ProducesResponseType(404)]
-        public IActionResult GetByPrefecture(string prefectureCode)
+        public IActionResult GetByPref(string prefCode)
         {
-            if (!PostalCodesData.Prefectures.ContainsKey(prefectureCode)) return NotFound();
+            if (!PostalCodesData.Prefs.ContainsKey(prefCode)) return NotFound();
 
-            var prefecture = PostalCodesData.Prefectures[prefectureCode];
-            return Ok(PostalCodesData.PrefectureCitiesMap[prefecture]);
+            var pref = PostalCodesData.Prefs[prefCode];
+            return Ok(PostalCodesData.PrefCitiesMap[pref]);
         }
 
         /// <summary>

@@ -7,10 +7,10 @@ namespace PostalCodesWebApi.Models
 {
     public static class PostalCodesData
     {
-        public static IDictionary<string, Prefecture> Prefectures { get; private set; }
+        public static IDictionary<string, Pref> Prefs { get; private set; }
 
         public static IDictionary<string, City> Cities { get; private set; }
-        public static IDictionary<Prefecture, City[]> PrefectureCitiesMap { get; private set; }
+        public static IDictionary<Pref, City[]> PrefCitiesMap { get; private set; }
 
         public static PostalCodeEntry[] PostalCodeEntries { get; private set; }
 
@@ -19,11 +19,11 @@ namespace PostalCodesWebApi.Models
 
         public static void LoadData(string webRootPath)
         {
-            Prefectures = GetPrefectures(Path.Combine(webRootPath, "App_Data", "Prefs.csv"));
+            Prefs = GetPrefs(Path.Combine(webRootPath, "App_Data", "Prefs.csv"));
 
             Cities = GetCities(Path.Combine(webRootPath, "App_Data", "Cities.csv"));
-            PrefectureCitiesMap = Cities.Values
-                .GroupBySequentially(x => x.Prefecture)
+            PrefCitiesMap = Cities.Values
+                .GroupBySequentially(x => x.Pref)
                 .ToDictionary(g => g.Key, g => g.ToArray());
 
             PostalCodeEntries = GetPostalCodeEntries(Path.Combine(webRootPath, "App_Data", "Towns.csv"));
@@ -36,9 +36,9 @@ namespace PostalCodesWebApi.Models
                 .ToDictionary(g => g.Key, g => g.ToArray());
         }
 
-        static IDictionary<string, Prefecture> GetPrefectures(string path) =>
+        static IDictionary<string, Pref> GetPrefs(string path) =>
             CsvFile.ReadRecordsByArray(path, true)
-                .Select(l => new Prefecture
+                .Select(l => new Pref
                 {
                     Code = l[0],
                     Name = l[1],
@@ -53,7 +53,7 @@ namespace PostalCodesWebApi.Models
                     Code = l[1],
                     Name = l[2],
                     Kana = l[3],
-                    Prefecture = Prefectures[l[0]],
+                    Pref = Prefs[l[0]],
                 })
                 .ToDictionary(p => p.Code);
 
