@@ -91,7 +91,7 @@ namespace PostalCodesDataConsole
 
         static string[][] ConcatLines(string[][] lines)
         {
-            var line = lines[0];
+            var line = (string[])lines[0].Clone();
             line[5] = lines.Select(l => l[5]).Aggregate((s1, s2) => (s1 == s2) ? s1 : s1 + s2);
             line[8] = lines.Select(l => l[8]).Aggregate((s1, s2) => s1 + s2);
             return new[] { line };
