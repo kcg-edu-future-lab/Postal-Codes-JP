@@ -16,6 +16,25 @@ namespace PostalCodesWebApi.Controllers
     public class CitiesController : Controller
     {
         /// <summary>
+        /// 市区町村の名前、かなを指定して、市区町村のリストを取得します。部分一致検索です。
+        /// </summary>
+        /// <param name="name">市区町村の名前</param>
+        /// <param name="kana">市区町村のかな</param>
+        /// <returns>市区町村のリスト</returns>
+        [HttpGet]
+        public IEnumerable<City> Get(string name, string kana)
+        {
+            IEnumerable<City> query = PostalCodesData.Cities.Values;
+
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(x => x.Name.Contains(name));
+            if (!string.IsNullOrWhiteSpace(kana))
+                query = query.Where(x => x.Kana.Contains(kana));
+
+            return query;
+        }
+
+        /// <summary>
         /// 都道府県コード (2 桁) を指定して、市区町村のリストを取得します。
         /// </summary>
         /// <param name="prefCode">都道府県コード (2 桁)</param>
@@ -44,32 +63,6 @@ namespace PostalCodesWebApi.Controllers
             if (!PostalCodesData.Cities.ContainsKey(code)) return NotFound();
 
             return Ok(PostalCodesData.Cities[code]);
-        }
-
-        /// <summary>
-        /// 市区町村の名前を指定して、市区町村のリストを取得します。部分一致検索です。
-        /// </summary>
-        /// <param name="name">市区町村の名前</param>
-        /// <returns>市区町村のリスト</returns>
-        [HttpGet("ByName/{name}")]
-        public IEnumerable<City> GetByName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return Enumerable.Empty<City>();
-
-            return PostalCodesData.Cities.Values.Where(x => x.Name.Contains(name));
-        }
-
-        /// <summary>
-        /// 市区町村のかなを指定して、市区町村のリストを取得します。部分一致検索です。
-        /// </summary>
-        /// <param name="kana">市区町村のかな</param>
-        /// <returns>市区町村のリスト</returns>
-        [HttpGet("ByKana/{kana}")]
-        public IEnumerable<City> GetByKana(string kana)
-        {
-            if (string.IsNullOrWhiteSpace(kana)) return Enumerable.Empty<City>();
-
-            return PostalCodesData.Cities.Values.Where(x => x.Kana.Contains(kana));
         }
     }
 }
