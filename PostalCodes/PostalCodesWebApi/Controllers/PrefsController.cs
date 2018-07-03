@@ -44,10 +44,9 @@ namespace PostalCodesWebApi.Controllers
         [ProducesResponseType(404)]
         public IActionResult Get(string code)
         {
-            var result = Get0(code);
-            return this.OkOrNotFound(result);
-        }
+            return this.OkOrNotFound(GetValue());
 
-        Pref Get0(string code) => PostalCodesData.Prefs.ContainsKey(code) ? PostalCodesData.Prefs[code] : null;
+            Pref GetValue() => PostalCodesData.Prefs.ContainsKey(code) ? PostalCodesData.Prefs[code] : null;
+        }
     }
 }

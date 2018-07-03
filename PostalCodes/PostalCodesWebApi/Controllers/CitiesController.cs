@@ -39,15 +39,20 @@ namespace PostalCodesWebApi.Controllers
         /// </summary>
         /// <param name="prefCode">都道府県コード (2 桁)</param>
         /// <returns>市区町村のリスト</returns>
-        [HttpGet("ByPref/{prefCode:regex(^[[0-9]]{{2}}$)}")]
+        [HttpGet("Pref/{prefCode:regex(^[[0-9]]{{2}}$)}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<City>))]
         [ProducesResponseType(404)]
         public IActionResult GetByPref(string prefCode)
         {
-            if (!PostalCodesData.Prefs.ContainsKey(prefCode)) return NotFound();
+            return this.OkOrNotFound(GetValue());
 
-            var pref = PostalCodesData.Prefs[prefCode];
-            return Ok(PostalCodesData.PrefCitiesMap[pref]);
+            IEnumerable<City> GetValue()
+            {
+                if (!PostalCodesData.Prefs.ContainsKey(prefCode)) return null;
+
+                var pref = PostalCodesData.Prefs[prefCode];
+                return PostalCodesData.PrefCitiesMap[pref];
+            }
         }
 
         /// <summary>
@@ -60,10 +65,9 @@ namespace PostalCodesWebApi.Controllers
         [ProducesResponseType(404)]
         public IActionResult Get(string code)
         {
-            var result = Get0(code);
-            return this.OkOrNotFound(result);
-        }
+            return this.OkOrNotFound(GetValue());
 
-        City Get0(string code) => PostalCodesData.Cities.ContainsKey(code) ? PostalCodesData.Cities[code] : null;
+            City GetValue() => PostalCodesData.Cities.ContainsKey(code) ? PostalCodesData.Cities[code] : null;
+        }
     }
 }
