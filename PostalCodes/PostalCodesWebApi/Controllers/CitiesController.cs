@@ -35,6 +35,21 @@ namespace PostalCodesWebApi.Controllers
         }
 
         /// <summary>
+        /// 市区町村コード (5 桁) を指定して、市区町村を取得します。
+        /// </summary>
+        /// <param name="code">市区町村コード (5 桁)</param>
+        /// <returns>市区町村</returns>
+        [HttpGet("{code:regex(^[[0-9]]{{5}}$)}")]
+        [ProducesResponseType(200, Type = typeof(City))]
+        [ProducesResponseType(404)]
+        public IActionResult Get(string code)
+        {
+            return this.OkOrNotFound(GetValue());
+
+            City GetValue() => PostalCodesData.Cities.ContainsKey(code) ? PostalCodesData.Cities[code] : null;
+        }
+
+        /// <summary>
         /// 都道府県コード (2 桁) を指定して、市区町村のリストを取得します。
         /// </summary>
         /// <param name="prefCode">都道府県コード (2 桁)</param>
@@ -53,21 +68,6 @@ namespace PostalCodesWebApi.Controllers
                 var pref = PostalCodesData.Prefs[prefCode];
                 return PostalCodesData.PrefCitiesMap[pref];
             }
-        }
-
-        /// <summary>
-        /// 市区町村コード (5 桁) を指定して、市区町村を取得します。
-        /// </summary>
-        /// <param name="code">市区町村コード (5 桁)</param>
-        /// <returns>市区町村</returns>
-        [HttpGet("{code:regex(^[[0-9]]{{5}}$)}")]
-        [ProducesResponseType(200, Type = typeof(City))]
-        [ProducesResponseType(404)]
-        public IActionResult Get(string code)
-        {
-            return this.OkOrNotFound(GetValue());
-
-            City GetValue() => PostalCodesData.Cities.ContainsKey(code) ? PostalCodesData.Cities[code] : null;
         }
     }
 }
