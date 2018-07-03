@@ -60,9 +60,11 @@ namespace PostalCodesWebApi.Controllers
         [ProducesResponseType(404)]
         public IActionResult Get(string code)
         {
-            if (!PostalCodesData.Cities.ContainsKey(code)) return NotFound();
-
-            return Ok(PostalCodesData.Cities[code]);
+            var result = Get0(code);
+            if (result == null) return NotFound();
+            return Ok(result);
         }
+
+        City Get0(string code) => PostalCodesData.Cities.ContainsKey(code) ? PostalCodesData.Cities[code] : null;
     }
 }
