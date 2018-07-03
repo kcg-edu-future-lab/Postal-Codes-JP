@@ -9,14 +9,12 @@ namespace PostalCodesWebApi.Models
     public static class PostalCodesData
     {
         public static IDictionary<string, Pref> Prefs { get; private set; }
-
         public static IDictionary<string, City> Cities { get; private set; }
-        public static IDictionary<Pref, City[]> PrefCitiesMap { get; private set; }
-
         public static Town[] Towns { get; private set; }
 
-        public static IDictionary<string, Town[]> PostalCodes { get; private set; }
+        public static IDictionary<Pref, City[]> PrefCitiesMap { get; private set; }
         public static IDictionary<City, Town[]> CityTownsMap { get; private set; }
+        public static IDictionary<string, Town[]> PostalCodes { get; private set; }
 
         public static void LoadData(string webRootPath)
         {
@@ -25,12 +23,11 @@ namespace PostalCodesWebApi.Models
             PrefCitiesMap = Cities.Values
                 .GroupBySequentially(x => x.Pref)
                 .ToDictionary(g => g.Key, g => g.ToArray());
-
-            PostalCodes = Towns
-                .GroupBy(x => x.PostalCode)
-                .ToDictionary(g => g.Key, g => g.ToArray());
             CityTownsMap = Towns
                 .GroupBySequentially(x => x.City)
+                .ToDictionary(g => g.Key, g => g.ToArray());
+            PostalCodes = Towns
+                .GroupBy(x => x.PostalCode)
                 .ToDictionary(g => g.Key, g => g.ToArray());
         }
 
