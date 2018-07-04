@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net47</TargetFramework>
+    <Version>1.0.3</Version>
+    <AssemblyTitle>Postal Codes JP Data Console</AssemblyTitle>
+    <Product>Postal Codes JP</Product>
+    <Description>郵便番号データを整形します。</Description>
+    <Authors>Keiho Sakapon</Authors>
+    <Copyright>© 2018 Keiho Sakapon</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bellona.Analysis" Version="1.1.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System.IO.Compression" />
+  </ItemGroup>
+
+</Project>

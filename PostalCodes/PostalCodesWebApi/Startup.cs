@@ -88,7 +88,9 @@ namespace PostalCodesWebApi
                 c.RoutePrefix = "";
             });
 
+            Console.WriteLine($"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: Begin");
             PostalCodesData.LoadData(env.WebRootPath);
+            Console.WriteLine($"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: End");
         }
     }
 }
