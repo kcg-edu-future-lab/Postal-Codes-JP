@@ -16,35 +16,23 @@ namespace PostalCodesWebApi.Controllers
     public class PostalCodesController : Controller
     {
         /// <summary>
-        /// 郵便番号 (7 桁) を指定して、郵便番号と町域のリストを取得します。
+        /// 郵便番号の一部 (3～7 桁) を指定して、郵便番号と町域のリストを取得します。前方一致検索です。
         /// </summary>
-        /// <param name="postalCode">郵便番号 (7 桁)。ハイフンの有無は問いません。</param>
+        /// <param name="postalCode">郵便番号の一部 (3～7 桁)。ハイフンの有無は問いません。</param>
         /// <returns>郵便番号と町域のリスト</returns>
-        /// <remarks>一つの郵便番号に複数の町域が割り当てられている場合があるため、戻り値はリストです。</remarks>
-        [HttpGet("{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{4}}$)}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
-        [ProducesResponseType(404)]
-        public IActionResult Get(string postalCode)
+        /// <remarks>
+        /// 一つの郵便番号に複数の町域が割り当てられている場合があります。
+        /// 検索結果は郵便番号の順に並びます。
+        /// </remarks>
+        [HttpGet("{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{0,4}}$)}")]
+        public IEnumerable<Town> Get(string postalCode)
         {
             postalCode = postalCode.Replace("-", "");
+            return postalCode.Length == 7 ? GetValue7() : GetValue3();
 
-            if (!PostalCodesData.PostalCodes.ContainsKey(postalCode)) return NotFound();
-
-            return Ok(PostalCodesData.PostalCodes[postalCode]);
-        }
-
-        /// <summary>
-        /// 郵便番号の一部 (3 桁以上) を指定して、郵便番号と町域のリストを取得します。前方一致検索です。
-        /// </summary>
-        /// <param name="postalCode">郵便番号の一部 (3 桁以上)。ハイフンの有無は問いません。</param>
-        /// <returns>郵便番号と町域のリスト</returns>
-        /// <remarks>戻り値は郵便番号の順に並びます。</remarks>
-        [HttpGet("ByPartial/{postalCode:regex(^[[0-9]]{{3}}-?[[0-9]]{{0,4}}$)}")]
-        public IEnumerable<Town> GetByPartial(string postalCode)
-        {
-            postalCode = postalCode.Replace("-", "");
-
-            return PostalCodesData.Towns.Where(x => x.PostalCode.StartsWith(postalCode))
+            IEnumerable<Town> GetValue7() => PostalCodesData.PostalCodes.ContainsKey(postalCode) ? PostalCodesData.PostalCodes[postalCode] : Enumerable.Empty<Town>();
+            IEnumerable<Town> GetValue3() => PostalCodesData.Towns
+                .Where(x => x.PostalCode.StartsWith(postalCode))
                 .OrderBy(x => x.PostalCode);
         }
     }
