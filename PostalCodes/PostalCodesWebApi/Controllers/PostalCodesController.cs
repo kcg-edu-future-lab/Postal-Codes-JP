@@ -16,22 +16,6 @@ namespace PostalCodesWebApi.Controllers
     public class PostalCodesController : Controller
     {
         /// <summary>
-        /// 市区町村コード (5 桁) を指定して、郵便番号と町域のリストを取得します。
-        /// </summary>
-        /// <param name="cityCode">市区町村コード (5 桁)</param>
-        /// <returns>郵便番号と町域のリスト</returns>
-        [HttpGet("ByCity/{cityCode:regex(^[[0-9]]{{5}}$)}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
-        [ProducesResponseType(404)]
-        public IActionResult GetByCity(string cityCode)
-        {
-            if (!PostalCodesData.Cities.ContainsKey(cityCode)) return NotFound();
-
-            var city = PostalCodesData.Cities[cityCode];
-            return Ok(PostalCodesData.CityTownsMap[city]);
-        }
-
-        /// <summary>
         /// 郵便番号 (7 桁) を指定して、郵便番号と町域のリストを取得します。
         /// </summary>
         /// <param name="postalCode">郵便番号 (7 桁)。ハイフンの有無は問いません。</param>

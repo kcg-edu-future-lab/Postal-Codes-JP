@@ -33,5 +33,26 @@ namespace PostalCodesWebApi.Controllers
 
             return query;
         }
+
+        /// <summary>
+        /// 市区町村コード (5 桁) を指定して、郵便番号と町域のリストを取得します。
+        /// </summary>
+        /// <param name="cityCode">市区町村コード (5 桁)</param>
+        /// <returns>郵便番号と町域のリスト</returns>
+        [HttpGet("City/{cityCode:regex(^[[0-9]]{{5}}$)}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
+        [ProducesResponseType(404)]
+        public IActionResult GetByCity(string cityCode)
+        {
+            return this.OkOrNotFound(GetValue());
+
+            IEnumerable<Town> GetValue()
+            {
+                if (!PostalCodesData.Cities.ContainsKey(cityCode)) return null;
+
+                var city = PostalCodesData.Cities[cityCode];
+                return PostalCodesData.CityTownsMap[city];
+            }
+        }
     }
 }
