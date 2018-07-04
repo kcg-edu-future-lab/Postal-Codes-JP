@@ -33,7 +33,9 @@ namespace PostalCodesWebApi.Controllers
 
             var keywords = KeywordPattern.Matches(q).Select(m => m.Value).ToArray();
 
-            return PostalCodesData.Towns.Where(x => keywords.All(k => x.Name.Contains(k)));
+            return PostalCodesData.TownFullWords
+                .Where(x => keywords.All(k => x.Value.Contains(k)))
+                .Select(x => x.Key);
         }
     }
 }

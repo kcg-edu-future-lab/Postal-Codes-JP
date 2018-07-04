@@ -16,6 +16,8 @@ namespace PostalCodesWebApi.Models
         public static IDictionary<City, Town[]> CityTownsMap { get; private set; }
         public static IDictionary<string, Town[]> PostalCodes { get; private set; }
 
+        public static IDictionary<Town, string> TownFullWords { get; private set; }
+
         public static void LoadData(string webRootPath)
         {
             LoadDataZipFile(webRootPath);
@@ -29,6 +31,8 @@ namespace PostalCodesWebApi.Models
             PostalCodes = Towns
                 .GroupBy(x => x.PostalCode)
                 .ToDictionary(g => g.Key, g => g.ToArray());
+
+            TownFullWords = Towns.ToDictionary(x => x, x => $"{x.City.Pref.Name} {x.City.Name} {x.Name} {x.City.Pref.Kana} {x.City.Kana} {x.Kana}");
         }
 
         static void LoadDataZipFile(string webRootPath)
