@@ -25,6 +25,7 @@ namespace PostalCodesWebApi.Controllers
         /// <returns>郵便番号と町域のリスト</returns>
         /// <remarks>
         /// 検索対象は、都道府県、市区町村、町域のそれぞれの名前およびかなです。
+        /// 検索結果が 1000 件を超える場合、ステータスコード 400 が返されます。
         /// </remarks>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]

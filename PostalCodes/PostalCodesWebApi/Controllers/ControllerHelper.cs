@@ -15,9 +15,9 @@ namespace PostalCodesWebApi.Controllers
 
         public static IActionResult OkOrTooLarge<T>(this Controller controller, IEnumerable<T> value, int maxCount)
         {
-            var result = value.ToArray();
+            var result = (value as ICollection<T>) ?? value.ToArray();
 
-            if (result.Length > maxCount) return controller.BadRequest();
+            if (result.Count > maxCount) return controller.BadRequest("The result is too large.");
             return controller.Ok(result);
         }
     }

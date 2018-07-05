@@ -21,6 +21,9 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="name">町域の名前</param>
         /// <param name="kana">町域のかな</param>
         /// <returns>郵便番号と町域のリスト</returns>
+        /// <remarks>
+        /// 検索結果が 1000 件を超える場合、ステータスコード 400 が返されます。
+        /// </remarks>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
         [ProducesResponseType(400)]
