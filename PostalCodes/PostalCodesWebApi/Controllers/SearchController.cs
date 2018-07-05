@@ -27,15 +27,22 @@ namespace PostalCodesWebApi.Controllers
         /// 検索対象は、都道府県、市区町村、町域のそれぞれの名前およびかなです。
         /// </remarks>
         [HttpGet]
-        public IEnumerable<Town> Get(string q)
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
+        [ProducesResponseType(400)]
+        public IActionResult Get(string q)
         {
-            if (string.IsNullOrWhiteSpace(q)) return Enumerable.Empty<Town>();
+            return this.OkOrTooLarge(GetValue(), 1000);
 
-            var keywords = KeywordPattern.Matches(q).Select(m => m.Value).ToArray();
+            IEnumerable<Town> GetValue()
+            {
+                if (string.IsNullOrWhiteSpace(q)) return PostalCodesData.Towns;
 
-            return PostalCodesData.TownFullWords
-                .Where(x => keywords.All(k => x.Value.Contains(k)))
-                .Select(x => x.Key);
+                var keywords = KeywordPattern.Matches(q).Select(m => m.Value).ToArray();
+
+                return PostalCodesData.TownFullWords
+                    .Where(x => keywords.All(k => x.Value.Contains(k)))
+                    .Select(x => x.Key);
+            }
         }
     }
 }
