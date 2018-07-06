@@ -30,19 +30,17 @@ namespace PostalCodesDataConsole
                 db.Cities.AddRange(cities);
 
                 var towns = remodeledData[2].Records
-                    .Select(l => new Town
-                    {
-                        PostalCode = l[1],
-                        Name = l[2],
-                        Kana = l[3],
-                        Remarks = l[4] != "" ? l[4] : null,
-                        City = db.Cities.Find(l[0]),
-                    })
-                    .GroupBy(x => x.PostalCode)
+                    .GroupBy(l => l[1])
                     .SelectMany(g => g
-                        .Select((x, i) => new { x, i })
-                        .Do(_ => _.x.Index = _.i)
-                        .Select(_ => _.x));
+                        .Select((l, i) => new Town
+                        {
+                            PostalCode = l[1],
+                            Index = i,
+                            Name = l[2],
+                            Kana = l[3],
+                            Remarks = l[4] != "" ? l[4] : null,
+                            City = db.Cities.Find(l[0]),
+                        }));
                 db.Towns.AddRange(towns);
 
                 db.SaveChanges();
