@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Bellona.Analysis" Version="1.1.14" />
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup>
