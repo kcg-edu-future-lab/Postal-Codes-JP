@@ -88,9 +88,10 @@ namespace PostalCodesWebApi
                 c.RoutePrefix = "";
             });
 
-            Console.WriteLine($"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: Begin");
+            var logPath = Path.Combine(env.WebRootPath, "App_Data", "PostalCodesWebApi.log");
+            File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: Begin\r\n");
             PostalCodesData.LoadData(env.WebRootPath);
-            Console.WriteLine($"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: End");
+            File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: End\r\n");
         }
     }
 }
