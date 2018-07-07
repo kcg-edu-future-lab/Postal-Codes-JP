@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
 
 namespace PostalCodesWebApi.Models
 {
@@ -39,7 +38,6 @@ namespace PostalCodesWebApi.Models
         static void LoadDataZipFile(string webRootPath)
         {
             var zipPath = Path.Combine(webRootPath, "App_Data", "PostalCodesData.zip");
-            EnsureDataZipFile(zipPath);
 
             using (var zip = ZipFile.OpenRead(zipPath))
             {
@@ -57,17 +55,6 @@ namespace PostalCodesWebApi.Models
                 {
                     return toObjects(CsvFile.ReadRecordsByArray(stream, true));
                 }
-            }
-        }
-
-        static void EnsureDataZipFile(string zipPath)
-        {
-            if (File.Exists(zipPath)) return;
-            Directory.CreateDirectory(Path.GetDirectoryName(zipPath));
-
-            using (var web = new WebClient())
-            {
-                web.DownloadFile(Startup.DataZipUri, zipPath);
             }
         }
 
