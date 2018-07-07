@@ -19,6 +19,17 @@ namespace PostalCodesDataConsole
                 db.Cities.AddRange(CreateCities(remodeledData, db));
                 Console.WriteLine("Added Cities.");
 
+                db.SaveChanges();
+                Console.WriteLine("Saved changes.");
+            }
+
+            using (var db = new PostalCodesDb())
+            {
+                // Makes AddRange method faster.
+                db.Configuration.AutoDetectChangesEnabled = false;
+
+                db.Cities.ToArray();
+
                 db.Towns.AddRange(CreateTowns(remodeledData, db));
                 Console.WriteLine("Added Towns.");
 
