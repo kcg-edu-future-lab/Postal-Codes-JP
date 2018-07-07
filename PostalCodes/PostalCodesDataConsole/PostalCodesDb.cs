@@ -10,8 +10,8 @@ namespace PostalCodesDataConsole
     public class PostalCodesDb : DbContext
     {
         // Sets the value of |DataDirectory| for an attached DB.
-        //public PostalCodesDb() : base("PostalCodesDbLD") =>
-        //    AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory);
+        static PostalCodesDb() =>
+            AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory);
 
         public DbSet<Pref> Prefs { get; set; }
         public DbSet<City> Cities { get; set; }
