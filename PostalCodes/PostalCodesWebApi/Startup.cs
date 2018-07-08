@@ -89,8 +89,18 @@ namespace PostalCodesWebApi
             });
 
             var logPath = Path.Combine(env.WebRootPath, "App_Data", "PostalCodesWebApi.log");
+            Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+
             File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: Begin\r\n");
-            PostalCodesData.LoadData(env.WebRootPath);
+            try
+            {
+                PostalCodesData.LoadData(env.WebRootPath);
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: {ex}");
+                throw;
+            }
             File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: End\r\n");
         }
     }
