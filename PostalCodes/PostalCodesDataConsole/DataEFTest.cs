@@ -14,6 +14,7 @@ namespace PostalCodesDataConsole
             Directory.CreateDirectory(nameof(DataEFTest));
 
             SaveResult(nameof(MultiTowns_Max), MultiTowns_Max());
+            SaveResult(nameof(SingleChars), SingleChars());
         }
 
         static void SaveResult(string fileName, IEnumerable<string> result) =>
@@ -33,6 +34,23 @@ namespace PostalCodesDataConsole
                     .SelectMany(mt => db.Towns.Include("City.Pref").Where(x => x.PostalCode == mt.PostalCode))
                     .Select(x => $"{x.PostalCode.Hyphenate()} {x.Index.ToString("D2")}: {x.City.Pref.Name} {x.City.Name} {x.Name}")
                     .ToArray();
+            }
+        }
+
+        static IEnumerable<string> SingleChars()
+        {
+            using (var db = new PostalCodesDb())
+            {
+                var townNames = db.Towns
+                    .Select(x => x.Name)
+                    .Distinct()
+                    .ToArray();
+                var chars = townNames
+                    .SelectMany(c => c)
+                    .GroupBy(c => c)
+                    .Where(g => g.Count() == 1)
+                    .Select(g => g.First());
+                return Enumerable.Repeat(string.Concat(chars), 1);
             }
         }
     }
