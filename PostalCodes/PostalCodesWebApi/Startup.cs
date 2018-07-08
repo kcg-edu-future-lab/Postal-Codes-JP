@@ -26,6 +26,8 @@ namespace PostalCodesWebApi
         public const string ProjectUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP";
         public const string LicenseUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP/blob/master/LICENSE";
 
+        public const string DataZipUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP/raw/master/Data/Remodeled/201805/PostalCodesData.zip";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
