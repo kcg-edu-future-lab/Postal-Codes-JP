@@ -28,6 +28,15 @@ namespace PostalCodesWebApi
 
         public const string DataZipUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP/raw/master/Data/Remodeled/201805/PostalCodesData.zip";
 
+        public static string WebRootPath { get; private set; }
+        public static Lazy<string> AppDataPath { get; } = new Lazy<string>(() => Path.Combine(WebRootPath, "App_Data"));
+        public static Lazy<string> LogFilePath { get; } = new Lazy<string>(() => Path.Combine(AppDataPath.Value, $"{nameof(PostalCodesWebApi)}.log"));
+
+        public static void WriteLog(string message)
+        {
+            File.AppendAllText(LogFilePath.Value, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: {message}\r\n");
+        }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -90,20 +99,20 @@ namespace PostalCodesWebApi
                 c.RoutePrefix = "";
             });
 
-            var logPath = Path.Combine(env.WebRootPath, "App_Data", "PostalCodesWebApi.log");
-            Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+            WebRootPath = env.WebRootPath;
+            Directory.CreateDirectory(AppDataPath.Value);
 
-            File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: Begin\r\n");
+            WriteLog("LoadData: Begin");
             try
             {
-                PostalCodesData.LoadData(env.WebRootPath);
+                PostalCodesData.LoadData();
             }
             catch (Exception ex)
             {
-                File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: {ex}");
+                WriteLog(ex.ToString());
                 throw;
             }
-            File.AppendAllText(logPath, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: End\r\n");
+            WriteLog("LoadData: End");
         }
     }
 }
