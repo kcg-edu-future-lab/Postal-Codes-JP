@@ -50,15 +50,15 @@ namespace PostalCodesDataConsole
                     .ToArray();
 
                 var chars = texts
-                    .SelectMany(_ => _.name)
-                    .GroupBy(c => c)
+                    .SelectMany(_ => _.name.Select(c => new { c, _.text }))
+                    .GroupBy(_ => _.c)
                     .Where(g => g.Count() == 1)
-                    .Select(g => g.First())
+                    .SelectMany(g => g)
                     .ToArray();
 
-                return texts
-                    .Where(_ => chars.Any(_.name.Contains))
-                    .Select(_ => $"{string.Concat(chars.Where(_.name.Contains))}: {_.text}");
+                return chars
+                    .GroupBy(_ => _.text)
+                    .Select(g => $"{string.Concat(g.Select(_ => _.c))}: {g.Key}");
             }
         }
     }
