@@ -41,16 +41,24 @@ namespace PostalCodesDataConsole
         {
             using (var db = new PostalCodesDb())
             {
-                var townNames = db.Towns
-                    .Select(x => x.Name)
-                    .Distinct()
+                var towns = db.Towns.Include("City.Pref").ToArray();
+
+                var texts = towns
+                    .Select(x => new { name = x.Name, text = $"{x.City.Pref.Name} {x.City.Name} {x.Name} ({x.Kana})" })
+                    .GroupBy(_ => _.text)
+                    .Select(g => g.First())
                     .ToArray();
-                var chars = townNames
-                    .SelectMany(c => c)
+
+                var chars = texts
+                    .SelectMany(_ => _.name)
                     .GroupBy(c => c)
                     .Where(g => g.Count() == 1)
-                    .Select(g => g.First());
-                return Enumerable.Repeat(string.Concat(chars), 1);
+                    .Select(g => g.First())
+                    .ToArray();
+
+                return texts
+                    .Where(_ => chars.Any(_.name.Contains))
+                    .Select(_ => $"{string.Concat(chars.Where(_.name.Contains))}: {_.text}");
             }
         }
     }
