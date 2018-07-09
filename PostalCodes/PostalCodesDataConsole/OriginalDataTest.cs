@@ -21,6 +21,7 @@ namespace PostalCodesDataConsole
             SaveResult(nameof(ConsecutiveData), ConsecutiveData());
             SaveResult(nameof(ConsecutiveData_Reason), ConsecutiveData_Reason());
             SaveResult(nameof(ConsecutiveData_Kana), ConsecutiveData_Kana());
+            SaveResult(nameof(KanaChars), KanaChars());
         }
 
         static void SaveResult(string fileName, IEnumerable<string[]> result) =>
@@ -55,5 +56,11 @@ namespace PostalCodesDataConsole
             .Where(g => g.First()[8].Contains("（") && !g.First()[8].Contains("）"))
             .Where(g => g.Select(l => l[5]).Distinct().Count() > 1)
             .SelectMany(g => g);
+
+        static IEnumerable<string[]> KanaChars() => OriginalData
+            .SelectMany(l => l[5])
+            .GroupBy(c => c)
+            .OrderBy(g => g.Key)
+            .Select(g => new[] { $"{(short)g.Key:X4}", $"{g.Key}", $"{g.Count()}" });
     }
 }
