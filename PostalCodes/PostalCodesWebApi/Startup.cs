@@ -99,7 +99,7 @@ namespace PostalCodesWebApi
                 c.RoutePrefix = "";
             });
 
-            WebRootPath = env.WebRootPath;
+            WebRootPath = env.WebRootPath ?? Path.Combine(env.ContentRootPath, "wwwroot");
             Directory.CreateDirectory(AppDataPath.Value);
 
             WriteLog("LoadData: Begin");
