@@ -9,16 +9,18 @@ namespace PostalCodesDataConsole
 {
     public static class DataEFTest
     {
+        const string OutputDirPath = @"..\..\..\..\..\Data\Test\DataEFTest";
+
         public static void ExecuteTest()
         {
-            Directory.CreateDirectory(nameof(DataEFTest));
+            Directory.CreateDirectory(OutputDirPath);
 
             SaveResult(nameof(MultiTowns_Max), MultiTowns_Max());
             SaveResult(nameof(SingleChars), SingleChars());
         }
 
         static void SaveResult(string fileName, IEnumerable<string> result) =>
-            TextFile.WriteLines(Path.Combine(nameof(DataEFTest), $"{fileName}.txt"), result);
+            TextFile.WriteLines(Path.Combine(OutputDirPath, $"{fileName}.txt"), result);
 
         static string Hyphenate(this string postalCode) =>
             postalCode.Insert(3, "-");
