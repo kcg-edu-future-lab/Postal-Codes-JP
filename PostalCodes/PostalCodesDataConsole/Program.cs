@@ -17,14 +17,14 @@ namespace PostalCodesDataConsole
 
         static void CreateDataZipFile()
         {
-            var originalData = DataZipFile.FromOriginal(KenAll_Local_Path);
+            var originalData = DataZipFile.FromOriginalFile(KenAll_Local_Path);
             var remodeledData = DataCreator.CreateCsvData(originalData);
             DataZipFile.SaveZipFile(PostalCodesData_Path, remodeledData);
         }
 
         static void CreateDatabase()
         {
-            var originalData = DataZipFile.FromOriginal(KenAll_Local_Path);
+            var originalData = DataZipFile.FromOriginalFile(KenAll_Local_Path);
             var remodeledData = DataCreator.CreateCsvData(originalData);
             DataEF.CreateDatabase(remodeledData);
         }

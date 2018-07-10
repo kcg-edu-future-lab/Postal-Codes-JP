@@ -14,7 +14,7 @@ namespace PostalCodesDataConsole
 
         public static void ExecuteTest()
         {
-            OriginalData = DataZipFile.FromOriginal(Program.KenAll_Local_Path);
+            OriginalData = DataZipFile.FromOriginalFile(Program.KenAll_Local_Path);
             Directory.CreateDirectory(OutputDirPath);
 
             SaveResult(nameof(MultiPostalCodes), MultiPostalCodes());
