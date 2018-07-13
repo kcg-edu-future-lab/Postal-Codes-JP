@@ -19,7 +19,8 @@ namespace PostalCodesDataConsole
 
             SaveResult(nameof(MultiPostalCodes), MultiPostalCodes());
             SaveResult(nameof(MultiTowns), MultiTowns());
-            SaveResult(nameof(ConsecutiveData), ConsecutiveData());
+            SaveResult(nameof(ConsecutiveData_Max), ConsecutiveData_Max());
+            SaveResult(nameof(ConsecutiveData_Complex), ConsecutiveData_Complex());
             SaveResult(nameof(ConsecutiveData_Reason), ConsecutiveData_Reason());
             SaveResult(nameof(ConsecutiveData_Kana), ConsecutiveData_Kana());
             SaveResult(nameof(KanaChars), KanaChars());
@@ -34,8 +35,21 @@ namespace PostalCodesDataConsole
         static IEnumerable<string[]> MultiTowns() => OriginalData
             .Where(l => l[12] != "0");
 
+        static IEnumerable<string[]> ConsecutiveData_Max()
+        {
+            var groups = OriginalData
+                .GroupBySequentially(l => l[2])
+                .Where(g => g.Count() > 1)
+                .Where(g => g.First()[8].Contains("（") && !g.First()[8].Contains("）"))
+                .ToArray();
+            var maxCount = groups.Max(g => g.Count());
+            return groups
+                .Where(g => g.Count() == maxCount)
+                .SelectMany(g => g);
+        }
+
         // 郵便番号が連続しているデータのうち、その理由が文字数超過かつ複数町域のものを取得します。
-        static IEnumerable<string[]> ConsecutiveData() => OriginalData
+        static IEnumerable<string[]> ConsecutiveData_Complex() => OriginalData
             .GroupBySequentially(l => l[2])
             .Where(g => g.Count() > 1)
             .Where(g => g.First()[8].Contains("（") && !g.First()[8].Contains("）"))
