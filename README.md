@@ -1,4 +1,4 @@
-# Postal Codes JP
+# Postal Codes JP Web API
 [![license](https://img.shields.io/github/license/kcg-edu-future-lab/Postal-Codes-JP.svg)](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/kcg-edu-future-lab/Postal-Codes-JP.svg)](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/releases)
 
@@ -9,7 +9,7 @@ Provides the Web API to search postal codes of Japan.
 
 - [ホスティングについて](docs/Hosting.md)
 
-### Release Notes
+## Release Notes
 - **v1.0.16** 初版リリース。インターフェイスを改良。
 - **v1.0.7** β版リリース。
 
@@ -18,11 +18,18 @@ Provides the Web API to search postal codes of Japan.
 - ローマ字のデータを追加。
 - 事業所のデータを追加。
 
-### Development Environment
+## Development Environment
+### Web API
 - .NET Core 2.0
-- ASP.NET Core Web API 2.0.8
+- ASP.NET Core 2.0.8
 - Microsoft.AspNetCore.Cors 2.0.3
 - Swashbuckle.AspNetCore 2.5.0
+
+### Data Console
+- .NET Framework 4.7
+- [Bellona.Analysis](https://github.com/sakapon/Bellona.Analysis)
+- (EntityFramework)
+- (EntityFramework.SqlServerCompact)
 
 ### Records
 2018.06.22-29 京都コンピュータ学院 未来環境ラボ 「Re:京都オープンデータハッカソン」
