@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 
 namespace PostalCodesWebApi.Models
 {
@@ -18,9 +19,9 @@ namespace PostalCodesWebApi.Models
 
         public static IDictionary<Town, string> TownFullWords { get; private set; }
 
-        public static void LoadData(string webRootPath)
+        public static void LoadData()
         {
-            LoadDataZipFile(webRootPath);
+            LoadDataZipFile();
 
             PrefCitiesMap = Cities.Values
                 .GroupBySequentially(x => x.Pref)
@@ -35,9 +36,10 @@ namespace PostalCodesWebApi.Models
             TownFullWords = Towns.ToDictionary(x => x, x => $"{x.City.Pref.Name} {x.City.Name} {x.Name} {x.City.Pref.Kana} {x.City.Kana} {x.Kana}");
         }
 
-        static void LoadDataZipFile(string webRootPath)
+        static void LoadDataZipFile()
         {
-            var zipPath = Path.Combine(webRootPath, "App_Data", "PostalCodesData.zip");
+            var zipPath = Path.Combine(Startup.AppDataPath.Value, "PostalCodesData.zip");
+            EnsureDataZipFile(zipPath);
 
             using (var zip = ZipFile.OpenRead(zipPath))
             {
@@ -56,6 +58,17 @@ namespace PostalCodesWebApi.Models
                     return toObjects(CsvFile.ReadRecordsByArray(stream, true));
                 }
             }
+        }
+
+        static void EnsureDataZipFile(string zipPath)
+        {
+            if (File.Exists(zipPath)) return;
+
+            using (var web = new WebClient())
+            {
+                web.DownloadFile(Startup.DataZipUri, zipPath);
+            }
+            Startup.WriteLog("Downloaded the data ZIP file.");
         }
 
         static IDictionary<string, Pref> GetPrefs(IEnumerable<string[]> source) =>

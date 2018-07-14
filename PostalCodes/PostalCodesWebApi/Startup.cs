@@ -26,6 +26,17 @@ namespace PostalCodesWebApi
         public const string ProjectUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP";
         public const string LicenseUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP/blob/master/LICENSE";
 
+        public const string DataZipUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP/raw/master/Data/Remodeled/201805/PostalCodesData.zip";
+
+        public static string WebRootPath { get; private set; }
+        public static Lazy<string> AppDataPath { get; } = new Lazy<string>(() => Path.Combine(WebRootPath, "App_Data"));
+        public static Lazy<string> LogFilePath { get; } = new Lazy<string>(() => Path.Combine(AppDataPath.Value, $"{nameof(PostalCodesWebApi)}.log"));
+
+        public static void WriteLog(string message)
+        {
+            File.AppendAllText(LogFilePath.Value, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: {message}\r\n");
+        }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -88,9 +99,20 @@ namespace PostalCodesWebApi
                 c.RoutePrefix = "";
             });
 
-            Console.WriteLine($"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: Begin");
-            PostalCodesData.LoadData(env.WebRootPath);
-            Console.WriteLine($"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff}: LoadData: End");
+            WebRootPath = env.WebRootPath ?? Path.Combine(env.ContentRootPath, "wwwroot");
+            Directory.CreateDirectory(AppDataPath.Value);
+
+            WriteLog("LoadData: Begin");
+            try
+            {
+                PostalCodesData.LoadData();
+            }
+            catch (Exception ex)
+            {
+                WriteLog(ex.ToString());
+                throw;
+            }
+            WriteLog("LoadData: End");
         }
     }
 }

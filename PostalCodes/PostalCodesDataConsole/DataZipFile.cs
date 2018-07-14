@@ -3,15 +3,33 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using Bellona.IO;
 
 namespace PostalCodesDataConsole
 {
     public static class DataZipFile
     {
-        public static string[][] FromOriginal(string originalZipPath)
+        public static string[][] FromOriginalFile(string originalZipPath)
         {
-            using (var zip = ZipFile.OpenRead(originalZipPath))
+            using (var input = File.OpenRead(originalZipPath))
+            {
+                return FromOriginal(input);
+            }
+        }
+
+        public static string[][] FromOriginalUri(string originalZipUri)
+        {
+            using (var web = new WebClient())
+            using (var input = web.OpenRead(originalZipUri))
+            {
+                return FromOriginal(input);
+            }
+        }
+
+        public static string[][] FromOriginal(Stream input)
+        {
+            using (var zip = new ZipArchive(input, ZipArchiveMode.Read))
             {
                 var entry = zip.GetEntry("KEN_ALL.CSV") ?? zip.Entries.FirstOrDefault();
                 if (entry == null) return new string[0][];

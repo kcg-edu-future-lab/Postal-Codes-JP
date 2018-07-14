@@ -25,17 +25,25 @@ namespace PostalCodesWebApi.Controllers
         /// <returns>郵便番号と町域のリスト</returns>
         /// <remarks>
         /// 検索対象は、都道府県、市区町村、町域のそれぞれの名前およびかなです。
+        /// 検索結果が 1000 件を超える場合、ステータスコード 400 が返されます。
         /// </remarks>
         [HttpGet]
-        public IEnumerable<Town> Get(string q)
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
+        [ProducesResponseType(400)]
+        public IActionResult Get(string q)
         {
-            if (string.IsNullOrWhiteSpace(q)) return Enumerable.Empty<Town>();
+            return this.OkOrTooLarge(GetValue(), 1000);
 
-            var keywords = KeywordPattern.Matches(q).Select(m => m.Value).ToArray();
+            IEnumerable<Town> GetValue()
+            {
+                if (string.IsNullOrWhiteSpace(q)) return PostalCodesData.Towns;
 
-            return PostalCodesData.TownFullWords
-                .Where(x => keywords.All(k => x.Value.Contains(k)))
-                .Select(x => x.Key);
+                var keywords = KeywordPattern.Matches(q).Select(m => m.Value).ToArray();
+
+                return PostalCodesData.TownFullWords
+                    .Where(x => keywords.All(k => x.Value.Contains(k)))
+                    .Select(x => x.Key);
+            }
         }
     }
 }

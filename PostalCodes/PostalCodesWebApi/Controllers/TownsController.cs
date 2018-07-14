@@ -21,17 +21,27 @@ namespace PostalCodesWebApi.Controllers
         /// <param name="name">町域の名前</param>
         /// <param name="kana">町域のかな</param>
         /// <returns>郵便番号と町域のリスト</returns>
+        /// <remarks>
+        /// 検索結果が 1000 件を超える場合、ステータスコード 400 が返されます。
+        /// </remarks>
         [HttpGet]
-        public IEnumerable<Town> Get(string name, string kana)
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Town>))]
+        [ProducesResponseType(400)]
+        public IActionResult Get(string name, string kana)
         {
-            IEnumerable<Town> query = PostalCodesData.Towns;
+            return this.OkOrTooLarge(GetValue(), 1000);
 
-            if (!string.IsNullOrWhiteSpace(name))
-                query = query.Where(x => x.Name.Contains(name));
-            if (!string.IsNullOrWhiteSpace(kana))
-                query = query.Where(x => x.Kana.Contains(kana));
+            IEnumerable<Town> GetValue()
+            {
+                IEnumerable<Town> query = PostalCodesData.Towns;
 
-            return query;
+                if (!string.IsNullOrWhiteSpace(name))
+                    query = query.Where(x => x.Name.Contains(name));
+                if (!string.IsNullOrWhiteSpace(kana))
+                    query = query.Where(x => x.Kana.Contains(kana));
+
+                return query;
+            }
         }
 
         /// <summary>
