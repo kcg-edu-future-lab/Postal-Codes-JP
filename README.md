@@ -10,7 +10,13 @@ Provides the Web API to search postal codes of Japan.
 - [ホスティングについて](docs/Hosting.md)
 
 ### Release Notes
+- **v1.0.16** 初版リリース。インターフェイスを改良。
 - **v1.0.7** β版リリース。
+
+### Future Plans
+- 各配置サーバー自身で月次データをダウンロードおよび加工。
+- ローマ字のデータを追加。
+- 事業所のデータを追加。
 
 ### Development Environment
 - .NET Core 2.0
