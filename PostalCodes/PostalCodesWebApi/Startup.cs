@@ -57,7 +57,7 @@ namespace PostalCodesWebApi
                 {
                     Title = Title,
                     Version = $"v{InformationalVersion}",
-                    Description = $"{Description}\n{Copyright}",
+                    Description = $"{Description}\nWeb API のご利用については下記のプロジェクト サイトをご覧ください。\n{Copyright}",
                     Contact = new Contact
                     {
                         Name = Title,
