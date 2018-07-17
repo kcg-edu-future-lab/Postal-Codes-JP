@@ -26,7 +26,7 @@ namespace PostalCodesWebApi
         public const string ProjectUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP";
         public const string LicenseUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP/blob/master/LICENSE";
 
-        public const string DataZipUri = "https://github.com/kcg-edu-future-lab/Postal-Codes-JP/raw/master/Data/Remodeled/201805/PostalCodesData.zip";
+        public static string DataZipUri { get; private set; }
 
         public static string WebRootPath { get; private set; }
         public static Lazy<string> AppDataPath { get; } = new Lazy<string>(() => Path.Combine(WebRootPath, "App_Data"));
@@ -99,6 +99,7 @@ namespace PostalCodesWebApi
                 c.RoutePrefix = "";
             });
 
+            DataZipUri = Configuration["App:DataZipUri"];
             WebRootPath = env.WebRootPath ?? Path.Combine(env.ContentRootPath, "wwwroot");
             Directory.CreateDirectory(AppDataPath.Value);
 
