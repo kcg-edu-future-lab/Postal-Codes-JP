@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Bellona.IO;
 
 namespace PostalCodesDataConsole
@@ -17,6 +18,7 @@ namespace PostalCodesDataConsole
 
             SaveResult(nameof(TownNames_Empty), TownNames_Empty());
             SaveResult(nameof(MultiTowns_Max), MultiTowns_Max());
+            SaveResult(nameof(Kana_Number), Kana_Number());
             SaveResult(nameof(SingleChars), SingleChars());
         }
 
@@ -53,6 +55,21 @@ namespace PostalCodesDataConsole
                     .SelectMany(mt => db.Towns.Include("City.Pref").Where(x => x.PostalCode == mt.PostalCode))
                     .Select(x => $"{x.PostalCode.Hyphenate()} {x.Index:D2}: {x.City.Pref.Name} {x.City.Name} {x.Name}")
                     .ToArray();
+            }
+        }
+
+        static IEnumerable<string> Kana_Number()
+        {
+            var numberPattern = new Regex("[０-９]");
+
+            using (var db = new PostalCodesDb())
+            {
+                var towns = db.Towns.Include("City.Pref").ToArray();
+
+                return towns
+                    .Where(x => numberPattern.IsMatch(x.Kana))
+                    .Where(x => !numberPattern.IsMatch(x.Name))
+                    .Select(x => $"{x.City.Pref.Name} {x.City.Name} {x.Name} ({x.Kana})");
             }
         }
 
