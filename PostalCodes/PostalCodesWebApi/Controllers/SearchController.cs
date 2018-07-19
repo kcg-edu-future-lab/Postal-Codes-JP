@@ -21,7 +21,7 @@ namespace PostalCodesWebApi.Controllers
         /// <summary>
         /// 任意のキーワードを指定して、郵便番号と町域のリストを取得します。部分一致検索です。
         /// </summary>
-        /// <param name="q">検索キーワード</param>
+        /// <param name="q">検索キーワード。空白文字で区切って複数指定できます。</param>
         /// <returns>郵便番号と町域のリスト</returns>
         /// <remarks>
         /// 検索対象は、都道府県、市区町村、町域のそれぞれの名前およびかなです。
