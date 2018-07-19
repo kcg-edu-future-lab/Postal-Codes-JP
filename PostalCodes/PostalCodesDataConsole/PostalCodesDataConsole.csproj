@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net47</TargetFramework>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <AssemblyTitle>Postal Codes JP Data Console</AssemblyTitle>
     <Product>Postal Codes JP</Product>
     <Description>郵便番号データを整形します。</Description>

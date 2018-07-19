@@ -19,6 +19,8 @@ namespace PostalCodesDataConsole
 
             SaveResult(nameof(MultiPostalCodes), MultiPostalCodes());
             SaveResult(nameof(MultiTowns), MultiTowns());
+            SaveResult(nameof(Towns_NoTownName), Towns_NoTownName());
+            SaveResult(nameof(Towns_Ichien), Towns_Ichien());
             SaveResult(nameof(ConsecutiveData_Max), ConsecutiveData_Max());
             SaveResult(nameof(ConsecutiveData_Complex), ConsecutiveData_Complex());
             SaveResult(nameof(ConsecutiveData_Reason), ConsecutiveData_Reason());
@@ -34,6 +36,12 @@ namespace PostalCodesDataConsole
 
         static IEnumerable<string[]> MultiTowns() => OriginalData
             .Where(l => l[12] != "0");
+
+        static IEnumerable<string[]> Towns_NoTownName() => OriginalData
+            .Where(l => l[8].Contains("番地がくる場合"));
+
+        static IEnumerable<string[]> Towns_Ichien() => OriginalData
+            .Where(l => l[8].Contains("一円"));
 
         static IEnumerable<string[]> ConsecutiveData_Max()
         {
