@@ -6,5 +6,7 @@
 そこでこの Web API では、ソースコードをオープンソース ライセンスのもとで提供し、それを利用する開発者自身がサービスをホストすることを想定します。
 例えば Azure Web App などの PaaS を利用すれば GitHub から直接ビルドおよびデプロイができるため、簡単な手順でサービスの運用を開始させることができます。
 
-なお、[postal-codes-jp.azurewebsites.net](https://postal-codes-jp.azurewebsites.net/) はカタログとして提供しているサイトです。
+- [Azure と GitHub で継続的デプロイ (2017)](https://sakapon.wordpress.com/2017/12/30/azure-github-2017/)
+
+なお、[postal-codes-jp.azurewebsites.net](https://postal-codes-jp.azurewebsites.net/) はカタログとして提供されているサイトです。
 保証・サポートはありません。
