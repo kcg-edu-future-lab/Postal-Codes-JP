@@ -8,12 +8,18 @@ Provides the Web API to search postal codes of Japan.
 この Web API は CORS (Cross-Origin Resource Sharing) をサポートしています。
 
 ## Web API のご利用について
-カタログサイトとして提供されている https://postal-codes-jp.azurewebsites.net/ は、商用・非商用を問わず本番運用ではお使いいただけません。
+Postal Codes JP Web API のカタログサイトとして提供されている https://postal-codes-jp.azurewebsites.net/ は、商用・非商用を問わず本番運用ではお使いいただけません。
 この Web API の事前調査の目的でお使いいただけます。
 また、事情によりこのサイトの運用を休止する場合があります。
 
-このプロジェクトでは、各利用者 (アプリ開発者) が Web API をホストして運用することを想定しています。
+このプロジェクトでは、**各利用者 (アプリ開発者) が Web API をホストして運用することを想定しています**。  
 詳細は [ホスティングについて](docs/Hosting.md) をご参照ください。
+
+## Specification
+カタログサイトのトップページがヘルプとなっており、API の仕様を確認できます。  
+ヘルプページとして、OpenAPI (Swagger) を利用しています。
+
+![](docs/images/Swagger-Top-v1.png)
 
 ## Release Notes
 - **v1.0.18** 初版リリース。インターフェイスを改良。
