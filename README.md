@@ -9,7 +9,7 @@ Provides the Web API to search postal codes of Japan.
 
 ## Web API のご利用について
 Postal Codes JP Web API のカタログサイトとして提供されている [postal-codes-jp.azurewebsites.net](https://postal-codes-jp.azurewebsites.net/) は、商用・非商用を問わず本番運用ではお使いいただけません。
-この Web API の事前調査の目的でお使いいただけます。
+この Web API の事前調査の目的でお使いいただけます。  
 また、事情によりこのサイトの運用を休止する場合があります。
 
 このプロジェクトでは、**各利用者 (アプリ開発者) が Web API をホストして運用することを想定しています**。  
