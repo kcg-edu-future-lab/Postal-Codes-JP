@@ -5,7 +5,7 @@
 日本の郵便番号を検索するための Web API を提供します。  
 Provides the Web API to search postal codes of Japan.
 
-この Web API は CORS (Cross-Origin Resource Sharing) をサポートしています。
+この Web API のデータ形式は JSON で、CORS (Cross-Origin Resource Sharing) をサポートしています。
 
 ## Web API のご利用について
 Postal Codes JP Web API のテスト用サイトとして提供されている [postal-codes-jp.azurewebsites.net](https://postal-codes-jp.azurewebsites.net/) は、商用・非商用を問わず本番運用ではお使いいただけません。
@@ -40,6 +40,15 @@ https://domain/api/postalcodes/601-138
 https://domain/api/postalcodes/601
 ```
 
+応答の JSON
+```json
+[
+  {"postalCode":"6011387","name":"醍醐一ノ切町","kana":"だいごいちのきりちょう","remarks":"","city":{"code":"26109","name":"京都市伏見区","kana":"きょうとしふしみく","pref":{"code":"26","name":"京都府","kana":"きょうとふ"}}},
+  {"postalCode":"6011387","name":"醍醐三ノ切","kana":"だいごさんのきり","remarks":"","city":{"code":"26109","name":"京都市伏見区","kana":"きょうとしふしみく","pref":{"code":"26","name":"京都府","kana":"きょうとふ"}}},
+  {"postalCode":"6011387","name":"醍醐二ノ切町","kana":"だいごにのきりちょう","remarks":"","city":{"code":"26109","name":"京都市伏見区","kana":"きょうとしふしみく","pref":{"code":"26","name":"京都府","kana":"きょうとふ"}}}
+]
+```
+
 ### Search
 任意のキーワードから町域を検索できます。  
 空白文字で区切って複数のキーワードを指定できます。部分一致検索です。
@@ -48,6 +57,13 @@ https://domain/api/postalcodes/601
 https://domain/api/search?q=%E4%BA%AC%E9%83%BD%E5%BA%9C+%E3%83%92%E3%83%AB%E3%82%BA
 "烏　条"
 https://domain/api/search?q=%E7%83%8F%E3%80%80%E6%9D%A1
+```
+
+応答の JSON
+```json
+[
+  {"postalCode":"6200067","name":"荒河ヒルズ","kana":"あらがひるず","remarks":"","city":{"code":"26201","name":"福知山市","kana":"ふくちやまし","pref":{"code":"26","name":"京都府","kana":"きょうとふ"}}}
+]
 ```
 
 その他の詳細は [Wiki](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/wiki) をご参照ください。
