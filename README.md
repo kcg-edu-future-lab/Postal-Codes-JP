@@ -17,11 +17,21 @@ Postal Codes JP Web API のテスト用サイトとして提供されている [
 
 ## Specification
 [テスト用サイト](https://postal-codes-jp.azurewebsites.net/)のトップページがヘルプとなっており、API の仕様を確認できます。  
-ヘルプページとして、OpenAPI (Swagger) を利用しています。
+ヘルプページとして、OpenAPI (Swagger) を利用しています。  
+テスト用の UI も付属しており、このページ上で API を呼び出すことができます。
 
 [![](docs/images/Swagger-Top-v1.png)](https://postal-codes-jp.azurewebsites.net/)
 
-詳細は [Wiki](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/wiki) をご参照ください。
+### API
+| 分類 | 説明 |
+-|-
+| Prefs | 都道府県のデータを取得します。 |
+| Cities | 市区町村のデータを取得します。 |
+| Towns | 町域名から、郵便番号と町域のデータを取得します。 |
+| PostalCodes | 郵便番号から、郵便番号と町域のデータを取得します。 |
+| Search | 任意のキーワードから、郵便番号と町域のデータを取得します。 |
+
+その他の詳細は [Wiki](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/wiki) をご参照ください。
 
 ## Release Notes
 - **v1.0.18** 初版リリース。インターフェイスを改良。
