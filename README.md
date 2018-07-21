@@ -22,7 +22,7 @@ Postal Codes JP Web API のテスト用サイトとして提供されている [
 
 [![](docs/images/Swagger-Top-v1.png)](https://postal-codes-jp.azurewebsites.net/)
 
-### API
+### APIs
 | 分類 | 説明 |
 -|-
 | Prefs | 都道府県のデータを取得します。 |
@@ -30,6 +30,25 @@ Postal Codes JP Web API のテスト用サイトとして提供されている [
 | Towns | 町域名から、郵便番号と町域のデータを取得します。 |
 | PostalCodes | 郵便番号から、郵便番号と町域のデータを取得します。 |
 | Search | 任意のキーワードから、郵便番号と町域のデータを取得します。 |
+
+### PostalCodes
+基本的な機能として、郵便番号から町域を検索できます。  
+郵便番号には 3～7 桁を指定できます。前方一致検索です。
+```
+https://domain/api/postalcodes/6011387
+https://domain/api/postalcodes/601-138
+https://domain/api/postalcodes/601
+```
+
+### Search
+任意のキーワードから町域を検索できます。  
+空白文字で区切って複数のキーワードを指定できます。部分一致検索です。
+```
+"京都府 ヒルズ"
+https://domain/api/search?q=%E4%BA%AC%E9%83%BD%E5%BA%9C+%E3%83%92%E3%83%AB%E3%82%BA
+"烏　条"
+https://domain/api/search?q=%E7%83%8F%E3%80%80%E6%9D%A1
+```
 
 その他の詳細は [Wiki](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/wiki) をご参照ください。
 
