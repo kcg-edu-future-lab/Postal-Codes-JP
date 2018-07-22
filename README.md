@@ -68,6 +68,27 @@ https://domain/api/search?q=%E7%83%8F%E3%80%80%E6%9D%A1
 
 その他の詳細は [Wiki](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/wiki) をご参照ください。
 
+### Data
+日本郵便で提供されている [郵便番号データ](http://www.post.japanpost.jp/zipcode/download.html) を加工して利用しています。
+
+```csv
+26102,"602  ","6028364","ｷｮｳﾄﾌ","ｷｮｳﾄｼｶﾐｷﾞｮｳｸ","ﾂｷﾇｹﾁｮｳ(ｼﾓﾀﾞﾁｳﾘﾄﾞｵﾘｵﾝﾏｴﾆｼｲﾙ､ｼﾓﾀﾞﾁｳﾘﾄﾞｵﾘｵﾝﾏｴﾆｼｲﾙｻｶﾞﾙ､ｼﾓﾀﾞﾁｳﾘﾄﾞｵﾘﾃﾝ","京都府","京都市上京区","突抜町（下立売通御前西入、下立売通御前西入下る、下立売通天",0,0,0,0,0,0
+26102,"602  ","6028364","ｷｮｳﾄﾌ","ｷｮｳﾄｼｶﾐｷﾞｮｳｸ","ｼﾞﾝﾐﾁﾋｶﾞｼｲﾙ､ｼﾓﾉｼﾓﾀﾞﾁｳﾘﾄﾞｵﾘｵﾝﾏｴﾆｼｲﾙ)","京都府","京都市上京区","神道東入、下の下立売通御前西入）",0,0,0,0,0,0
+```
+
+例えば、この CSV のデータは次のように加工されます。
+- 1 つのデータが複数行に分割されているため、1 行に加工する
+- 読み仮名 (半角カタカナ) をひらがなに変更する
+- `（）` 内のデータを備考 (Remarks) に移動する
+
+```json
+[
+  {"postalCode":"6028364","name":"突抜町","kana":"つきぬけちょう","remarks":"下立売通御前西入、下立売通御前西入下る、下立売通天神道東入、下の下立売通御前西入","city":{"code":"26102","name":"京都市上京区","kana":"きょうとしかみぎょうく","pref":{"code":"26","name":"京都府","kana":"きょうとふ"}}}
+]
+```
+
+詳細は [データの加工](https://github.com/kcg-edu-future-lab/Postal-Codes-JP/wiki/2.3.%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%8A%A0%E5%B7%A5) をご参照ください。
+
 ## Release Notes
 - **v1.0.18** 初版リリース。インターフェイスを改良。
 - **v1.0.7** β版リリース。
@@ -89,6 +110,9 @@ https://domain/api/search?q=%E7%83%8F%E3%80%80%E6%9D%A1
 - [Bellona.Analysis](https://github.com/sakapon/Bellona.Analysis)
 - (EntityFramework)
 - (EntityFramework.SqlServerCompact)
+
+### Data
+- [日本郵便 郵便番号データ](http://www.post.japanpost.jp/zipcode/download.html)
 
 ### Records
 2018.06.21-29 京都コンピュータ学院 未来環境ラボ 「Re:京都オープンデータハッカソン」
